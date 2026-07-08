@@ -2,6 +2,9 @@ package github.snomfish;
 
 import github.snomfish.graphics.Shader;
 import github.snomfish.scene.Scene;
+import github.snomfish.scene.components.CameraCmp;
+import github.snomfish.scene.components.PlayerCmp;
+import github.snomfish.scene.components.TransformCmp;
 import github.snomfish.scene.system.CameraSystem;
 import github.snomfish.scene.system.RenderSystem;
 import github.snomfish.scene.system.TransformSystem;
@@ -51,6 +54,16 @@ public class Engine {
             "Vertex.glsl", 
             "Fragment.glsl"
         );
+
+        scene = new Scene();
+        
+        Integer cameraId = scene.newEntity();
+        scene.addComponent(cameraId, new CameraCmp());
+        scene.addComponent(cameraId, new TransformCmp());
+
+        playerId = scene.newEntity();
+        scene.addComponent(playerId, new PlayerCmp(cameraId));
+        scene.addComponent(playerId, new TransformCmp());
         
         cameraSystem = new CameraSystem();
         renderSystem = new RenderSystem();
@@ -68,7 +81,8 @@ public class Engine {
             currentTime = System.nanoTime();
             deltaTime = currentTime - lastFrame;
 
-            if (deltaTime >= lastFrame + frameInterval) {
+            if (deltaTime >= frameInterval) {
+                System.out.println("test");
                 lastFrame = currentTime;
                 update(deltaTime);
                 render(deltaTime);

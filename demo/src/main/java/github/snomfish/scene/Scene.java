@@ -29,10 +29,10 @@ public class Scene {
     }
 
 
-    public Entity newEntity() {
+    public Integer newEntity() { // eventuall remove enetity and just have a number
         Entity e = new Entity();
         entities.add(e);
-        return e;
+        return e.getId();
     }
 
 
@@ -41,6 +41,7 @@ public class Scene {
     // components
     public void newComponent(Class<? extends Component> clazz) {
         components.put(clazz, new HashMap<>());
+        System.out.println("loaded component " + clazz.getSimpleName());
     }
 
 
@@ -48,7 +49,7 @@ public class Scene {
         Class<? extends Component> clazz = component.getClass();
 
         if (!components.containsKey(clazz)) {
-            throw new RuntimeException("failed to add component to " + clazz.getName() + ", not added to components map");
+            throw new RuntimeException("failed to add component to " + clazz.getSimpleName() + ", not added to components map");
         }
 
         components.get(clazz).put(id, component);
@@ -58,7 +59,7 @@ public class Scene {
     public void removeComponent(Integer id, Class<? extends Component> clazz) {
         
         if (!components.containsKey(clazz)) {
-            throw new RuntimeException("failed to remove component from " + clazz.getName() + ", not added to components map");
+            throw new RuntimeException("failed to remove component from " + clazz.getSimpleName() + ", not added to components map");
         }
 
         components.get(clazz).remove(id);
@@ -68,8 +69,8 @@ public class Scene {
     @SuppressWarnings("unchecked")
     public <T extends Component> T getComponent(Integer id, Class<T> clazz) {
 
-        if (components.containsKey(clazz)) {
-            throw new RuntimeException("failed to get component " + clazz.getName());
+        if (!components.containsKey(clazz)) {
+            throw new RuntimeException("failed to get component " + clazz.getSimpleName());
         }
 
         return (T) components.get(clazz).get(id);
@@ -78,8 +79,8 @@ public class Scene {
 
     public Set<Integer> getEntitiesWith(Class<? extends Component> clazz) {
 
-        if (components.containsKey(clazz)) {
-            throw new RuntimeException("failed to get component " + clazz.getName());
+        if (!components.containsKey(clazz)) {
+            throw new RuntimeException("failed to get component " + clazz.getSimpleName());
         }
 
         return components.get(clazz).keySet();

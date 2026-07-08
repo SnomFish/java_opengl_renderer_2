@@ -9,9 +9,9 @@ public class TransformCmp implements Component {
     
     
     private final Matrix4f modelMatrix = new Matrix4f(); 
-    private Vector3f position;
-    private Vector3f rotation;
-    private Vector3f scale;
+    private Vector3f position = new Vector3f();
+    private Vector3f rotation = new Vector3f();
+    private Vector3f scale = new Vector3f();
 
     private boolean updateFlag;
 
