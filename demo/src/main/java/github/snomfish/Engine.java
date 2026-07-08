@@ -1,10 +1,10 @@
 package github.snomfish;
 
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
-
 import github.snomfish.graphics.Shader;
 import github.snomfish.scene.Scene;
+import github.snomfish.scene.system.CameraSystem;
+import github.snomfish.scene.system.RenderSystem;
+import github.snomfish.scene.system.TransformSystem;
 import github.snomfish.window.Window;
 
 public class Engine {
@@ -13,6 +13,11 @@ public class Engine {
     private Window window;
     private Shader shader;
     private Scene scene;
+
+    private int playerId;
+    private CameraSystem cameraSystem;
+    private RenderSystem renderSystem;
+    private TransformSystem transformSystem;
 
     private int fps;
     private long frameInterval;
@@ -47,6 +52,9 @@ public class Engine {
             "Fragment.glsl"
         );
         
+        cameraSystem = new CameraSystem();
+        renderSystem = new RenderSystem();
+        transformSystem = new TransformSystem();
     }
 
 
@@ -70,20 +78,16 @@ public class Engine {
 
 
     private void update(float deltaTime) {
-        /* 
-        GLFW.glfwPollEvents();
-
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-
-        // draw
-
-        GLFW.glfwSwapBuffers(windowHandle);
-        */
+        window.update();
+        transformSystem.update(scene);
+        cameraSystem.update(scene, window.getAspect());
     }
 
 
     private void render(float deltaTime) {
-
+        renderSystem.beginFrame();
+        renderSystem.render(scene, shader, window.getAspect(), playerId);
+        renderSystem.endFrame();
     }
 
 

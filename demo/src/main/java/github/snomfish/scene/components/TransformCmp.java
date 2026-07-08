@@ -1,5 +1,6 @@
 package github.snomfish.scene.components;
 
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import github.snomfish.scene.Component;
@@ -7,6 +8,7 @@ import github.snomfish.scene.Component;
 public class TransformCmp implements Component {
     
     
+    private final Matrix4f modelMatrix = new Matrix4f(); 
     private Vector3f position;
     private Vector3f rotation;
     private Vector3f scale;
@@ -28,6 +30,9 @@ public class TransformCmp implements Component {
     
 
     // getter
+    public Matrix4f getModelMatrix() {
+        return modelMatrix;
+    }
     public Vector3f getPosition() {
         return position;
     }

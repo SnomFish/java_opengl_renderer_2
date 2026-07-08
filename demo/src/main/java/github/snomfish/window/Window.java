@@ -33,6 +33,9 @@ public class Window {
     public String getTitle() {
         return title;
     }
+    public float getAspect() {
+        return (float) width / (float) height;
+    }
 
 
     public void init() {
@@ -53,6 +56,12 @@ public class Window {
         GLFW.glfwMakeContextCurrent(windowHandle);
         
         GL.createCapabilities();
+    }
+
+
+    public void update() {
+        GLFW.glfwSwapBuffers(windowHandle);
+        GLFW.glfwPollEvents();
     }
 
 
