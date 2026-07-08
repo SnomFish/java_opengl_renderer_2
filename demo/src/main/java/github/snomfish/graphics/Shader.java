@@ -11,6 +11,7 @@ import github.snomfish.FileReader;
 
 public class Shader {
     
+    private static final String FOLDER_PATH = "shaders/";
 
     private final Map<String, Integer> uniforms;
     private int programId;
@@ -45,7 +46,7 @@ public class Shader {
 
 
     private void loadVertexShader(String path) {
-        String source = FileReader.read(path);
+        String source = FileReader.read(FOLDER_PATH + path);
         vertexShaderId = compileShader(
             source,
             GL20.GL_VERTEX_SHADER
@@ -54,7 +55,7 @@ public class Shader {
 
 
     private void loadFragmentShader(String path) {
-        String source = FileReader.read(path);
+        String source = FileReader.read(FOLDER_PATH + path);
         vertexShaderId = compileShader(
             source,
             GL20.GL_FRAGMENT_SHADER

@@ -43,8 +43,8 @@ public class Engine {
         window.init();
 
         shader = new Shader(
-            "shader/Vertex.glsl", 
-            "shader/Fragment.glsl"
+            "Vertex.glsl", 
+            "Fragment.glsl"
         );
         
     }
