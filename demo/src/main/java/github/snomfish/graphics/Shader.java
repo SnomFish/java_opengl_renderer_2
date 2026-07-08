@@ -1,11 +1,14 @@
 package github.snomfish.graphics;
 
+import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.system.MemoryStack;
 
 import github.snomfish.FileReader;
 
@@ -30,6 +33,8 @@ public class Shader {
         linkProgram();
 
         createUniform("model");
+        createUniform("view");
+        createUniform("projection");
     }
 
 
@@ -142,6 +147,18 @@ public class Shader {
         if (location == null) return;
 
         GL20.glUniform3f(location, value.x, value.y, value.z);
+    }
+    public void setUniform(String name, Matrix4f matrix) {
+        Integer location = uniforms.get(name);
+        if (location == null) return;
+
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+
+            FloatBuffer buffer = stack.mallocFloat(16);
+            matrix.get(buffer);
+
+            GL20.glUniformMatrix4fv(location, false, buffer);
+        }
     }
 
 

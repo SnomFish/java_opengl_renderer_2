@@ -1,8 +1,10 @@
 package github.snomfish;
 
+import github.snomfish.graphics.Mesh;
 import github.snomfish.graphics.Shader;
 import github.snomfish.scene.Scene;
 import github.snomfish.scene.components.CameraCmp;
+import github.snomfish.scene.components.MeshCmp;
 import github.snomfish.scene.components.PlayerCmp;
 import github.snomfish.scene.components.TransformCmp;
 import github.snomfish.scene.system.CameraSystem;
@@ -59,11 +61,16 @@ public class Engine {
         
         Integer cameraId = scene.newEntity();
         scene.addComponent(cameraId, new CameraCmp());
-        scene.addComponent(cameraId, new TransformCmp());
+        scene.addComponent(cameraId, new TransformCmp(0, 0, 0, 0, 0, 0, 1, 1, 1));
 
         playerId = scene.newEntity();
         scene.addComponent(playerId, new PlayerCmp(cameraId));
-        scene.addComponent(playerId, new TransformCmp());
+        scene.addComponent(playerId, new TransformCmp(0, 0, 0, 0, 0, 0, 1, 1, 1));
+
+        Integer testSquareId = scene.newEntity();
+        Mesh testSquareMesh = Mesh.square();
+        scene.addComponent(testSquareId, new MeshCmp(testSquareMesh));
+        scene.addComponent(testSquareId, new TransformCmp(0, 0, -5, 0, 0, 0, 1, 1, 1));
         
         cameraSystem = new CameraSystem();
         renderSystem = new RenderSystem();

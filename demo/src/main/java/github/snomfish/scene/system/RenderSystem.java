@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import github.snomfish.graphics.Shader;
 import github.snomfish.scene.Scene;
+import github.snomfish.scene.components.CameraCmp;
 import github.snomfish.scene.components.MeshCmp;
 import github.snomfish.scene.components.PlayerCmp;
 import github.snomfish.scene.components.TransformCmp;
@@ -26,8 +27,11 @@ public class RenderSystem {
         PlayerCmp p = scene.getComponent(playerId, PlayerCmp.class);
 
         int cameraId = p.getCameraId();
+        CameraCmp camera = scene.getComponent(cameraId, CameraCmp.class);
 
         shader.bind();
+        shader.setUniform("view", camera.getView());
+        shader.setUniform("projection", camera.getProjection());
 
         for (Integer id : scene.getEntitiesWith(MeshCmp.class)) {
 
@@ -35,6 +39,9 @@ public class RenderSystem {
             TransformCmp t = scene.getComponent(id, TransformCmp.class);
 
             if (m == null || t == null) continue;
+
+            shader.setUniform("model", t.getModelMatrix());
+            m.getMesh().render();
         }
 
         shader.unbind();

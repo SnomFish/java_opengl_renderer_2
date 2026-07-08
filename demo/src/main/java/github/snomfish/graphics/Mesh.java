@@ -1,49 +1,123 @@
 package github.snomfish.graphics;
 
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 public class Mesh {
 
 
     public static Mesh square() {
-        float[] square = {
+        float[] vertices = {
             0.5f, 0.5f, 0.0f,
             0.5f, -0.5f, 0.0f,
             -0.5f, 0.5f, 0.0f,
             -0.5f, -0.5f, 0.0f
         };
-        return new Mesh(square);
+        int[] indices = {
+            0, 1, 2,
+            1, 2, 3
+        };
+        return new Mesh(vertices, indices);
     }
     
 
-    private float[] vertices;
-    private int vbo;
     private int vao;
+    private int vbo;
+    private int ebo;
+    private int vertexCount;
 
 
     public Mesh(
-        float[] vertices
+        float[] vertices,
+        int[] indices
     ) {
-        this.vertices = vertices;
+        this.vertexCount = indices.length;
+
+        createVAO();
+        createVBO(vertices);
+        createEBO(indices);
+        configureVertexAttributes();
+        unbind();
     }
 
 
-    public void init() {
-        vbo = GL15.glGenBuffers();
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
-        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vertices, GL15.GL_STATIC_DRAW);
-
+    private void createVAO() {
         vao = GL30.glGenVertexArrays();
         GL30.glBindVertexArray(vao);
-        GL30.glVertexAttribPointer(
+    }
+    private void createVBO(
+        float[] vertices
+    ) {
+        vbo = GL15.glGenBuffers();
+
+        GL15.glBindBuffer(
+            GL15.GL_ARRAY_BUFFER, 
+            vbo
+        );
+
+        GL15.glBufferData(
+            GL15.GL_ARRAY_BUFFER, 
+            vertices, 
+            GL15.GL_STATIC_DRAW
+        );
+    }
+    private void createEBO(
+        int[] indices
+    ) {
+        ebo = GL15.glGenBuffers();
+
+        GL15.glBindBuffer(
+            GL15.GL_ELEMENT_ARRAY_BUFFER, 
+            ebo
+        );
+
+        GL15.glBufferData(
+            GL15.GL_ELEMENT_ARRAY_BUFFER, 
+            indices, 
+            GL15.GL_STATIC_DRAW
+        );
+    }
+
+
+    private void configureVertexAttributes() {
+        GL20.glVertexAttribPointer(
             0,
             3,
-            GL30.GL_FLOAT,
+            GL11.GL_FLOAT,
             false,
             3 * Float.BYTES,
             0
         );
-        GL30.glEnableVertexAttribArray(0);
+
+        GL20.glEnableVertexAttribArray(0);
+    }
+
+
+    private void unbind() {
+        GL30.glBindVertexArray(0);
+    }
+
+
+    public void render() {
+
+        GL30.glBindVertexArray(vao);
+        GL11.glDrawElements(
+            GL11.GL_TRIANGLES,
+            vertexCount,
+            GL11.GL_UNSIGNED_INT,
+            0
+        );
+
+        GL30.glBindVertexArray(0);
+    }
+
+
+    public void cleanup() {
+        GL20.glDisableVertexAttribArray(0);
+        GL15.glDeleteBuffers(vbo);
+        GL15.glDeleteBuffers(ebo);
+        GL30.glDeleteVertexArrays(vao);
     }
 }
