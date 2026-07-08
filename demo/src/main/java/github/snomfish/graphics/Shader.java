@@ -1,11 +1,10 @@
-package github.snomfish;
+package github.snomfish.graphics;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
@@ -15,7 +14,9 @@ public class Shader {
 
     private final Map<String, Integer> uniforms;
     private int programId;
+    @SuppressWarnings("unused")
     private int vertexShaderId;
+    @SuppressWarnings("unused")
     private int fragmentShaderId;
 
 

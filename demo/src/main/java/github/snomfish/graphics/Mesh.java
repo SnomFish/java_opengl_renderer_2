@@ -1,4 +1,4 @@
-package github.snomfish;
+package github.snomfish.graphics;
 
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;

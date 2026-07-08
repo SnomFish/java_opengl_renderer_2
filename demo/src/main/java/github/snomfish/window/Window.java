@@ -1,4 +1,4 @@
-package github.snomfish;
+package github.snomfish.window;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
@@ -17,6 +17,7 @@ public class Window {
     private int height;
     private final String title;
 
+    @SuppressWarnings("unused")
     private int fps;
     private long frameTime;
     
