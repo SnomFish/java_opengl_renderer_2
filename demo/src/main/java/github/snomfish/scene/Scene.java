@@ -14,7 +14,8 @@ import github.snomfish.scene.components.TransformCmp;
 public class Scene {
     
 
-    private final List<Entity> entities;
+    private static int nextId;
+    private final List<Integer> entities;
     private final Map<Class<?>, Map<Integer, Component>> components;
 
 
@@ -30,9 +31,9 @@ public class Scene {
 
 
     public Integer newEntity() { // eventuall remove enetity and just have a number
-        Entity e = new Entity();
-        entities.add(e);
-        return e.getId();
+        Integer id = nextId++;
+        entities.add(id);
+        return id;
     }
 
 

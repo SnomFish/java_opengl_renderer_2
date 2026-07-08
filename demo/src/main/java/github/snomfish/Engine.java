@@ -82,7 +82,6 @@ public class Engine {
             deltaTime = currentTime - lastFrame;
 
             if (deltaTime >= frameInterval) {
-                System.out.println("test");
                 lastFrame = currentTime;
                 update(deltaTime);
                 render(deltaTime);
