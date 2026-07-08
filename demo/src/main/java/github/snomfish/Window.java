@@ -55,8 +55,21 @@ public class Window {
     }
 
 
-    //
-    public void init() {
+
+
+    public void run() {
+        
+        init();
+        loop();
+
+        GLFW.glfwDestroyWindow(window);
+        GLFW.glfwTerminate();
+    }
+
+
+
+
+    private void init() {
         
         // initialises GLFW library, must be called before any other GLFW function
         if (!GLFW.glfwInit()) {
@@ -77,7 +90,9 @@ public class Window {
     }
 
 
-    public void loop() {
+
+
+    private void loop() {
 
         long lastFrame = System.nanoTime();
         long currentTime = lastFrame;
@@ -96,15 +111,18 @@ public class Window {
     }
 
 
-    public void update(
+
+
+    private void update(
         long deltaTime
     ) {
+        GLFW.glfwPollEvents();
+
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
         // draw
 
         GLFW.glfwSwapBuffers(window);
 
-        GLFW.glfwPollEvents();
     }
 }
