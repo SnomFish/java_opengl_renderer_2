@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import github.snomfish.scene.components.CameraCmp;
+import github.snomfish.scene.components.MeshCmp;
+import github.snomfish.scene.components.TransformCmp;
 
 public class Scene {
     
@@ -16,7 +21,9 @@ public class Scene {
         entities = new ArrayList<>();
         components = new HashMap<>();
 
-        newComponent.
+        newComponent(CameraCmp.class);
+        newComponent(MeshCmp.class);
+        newComponent(TransformCmp.class);
     }
 
 
@@ -53,5 +60,26 @@ public class Scene {
         }
 
         components.get(clazz).remove(id);
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public <T extends Component> T getComponent(Integer id, Class<T> clazz) {
+
+        if (components.containsKey(clazz)) {
+            throw new RuntimeException("failed to get component " + clazz.getName());
+        }
+
+        return (T) components.get(clazz).get(id);
+    }
+
+
+    public Set<Integer> getEntitiesWith(Class<? extends Component> clazz) {
+
+        if (components.containsKey(clazz)) {
+            throw new RuntimeException("failed to get component " + clazz.getName());
+        }
+
+        return components.get(clazz).keySet();
     }
 }

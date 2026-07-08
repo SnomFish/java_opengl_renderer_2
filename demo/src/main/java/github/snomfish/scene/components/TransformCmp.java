@@ -11,7 +11,7 @@ public class TransformCmp implements Component {
     private Vector3f rotation;
     private Vector3f scale;
 
-    private boolean dirtyFlag;
+    private boolean updateFlag;
 
 
     public TransformCmp(
@@ -20,7 +20,7 @@ public class TransformCmp implements Component {
         position.set(px, py, pz);
         rotation.set(rx, ry, rz);
         scale.set(sx, sy, sz);
-        dirtyFlag = true;
+        updateFlag = true;
     }
     public TransformCmp() {
         this(0, 0, 0, 0, 0, 0, 1, 1, 1);
@@ -37,39 +37,39 @@ public class TransformCmp implements Component {
     public Vector3f getScale() {
         return scale;
     }
-    public boolean getDirtyFlag() {
-        return dirtyFlag;
+    public boolean getUpdateFlag() {
+        return updateFlag;
     }
 
 
     // setter
     public void setPosition(float x, float y, float z) {
         this.position.set(x, y, z);
-        dirtyFlag = true;
+        updateFlag = true;
     }
     public void setRotation(float x, float y, float z) {
         this.rotation.set(x, y, z);
-        dirtyFlag = true;
+        updateFlag = true;
     }
     public void setScale(float x, float y, float z) {
         this.scale.set(x, y, z);
-        dirtyFlag = true;
+        updateFlag = true;
     }
-    public void setDirtyFlag(boolean dirtyFlag) {
-        this.dirtyFlag = dirtyFlag;
+    public void setUpdateFlag(boolean updateFlag) {
+        this.updateFlag = updateFlag;
     }
 
 
     public void translate(float dx, float dy, float dz) {
         this.position.add(dx, dy, dz);
-        dirtyFlag = false;
+        updateFlag = false;
     }
     public void rotate(float dx, float dy, float dz) {
         this.rotation.add(dx, dy, dz);
-        dirtyFlag = false;
+        updateFlag = false;
     }
     public void scale(float dx, float dy, float dz) {
         this.scale.add(dx, dy, dz);
-        dirtyFlag = false;
+        updateFlag = false;
     }
 }
