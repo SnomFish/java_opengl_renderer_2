@@ -29,6 +29,8 @@ public class Shader {
         loadVertexShader(vertexPath);
         loadFragmentShader(fragmentPath);
         linkProgram();
+
+        createUniform("model");
     }
 
 
@@ -133,9 +135,9 @@ public class Shader {
         int location = GL20.glGetUniformLocation(programId, name);
 
         if (location == -1) {
+            // check there isnt a typo, or the uniform may have been optimized out of the shader
             System.out.println("uniform location not found for " + name);
             return;
-            // check there isnt a typo, or the uniform may have been optimized out of the shader
         }
 
         uniforms.put(name, location);

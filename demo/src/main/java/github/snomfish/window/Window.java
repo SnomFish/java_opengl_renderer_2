@@ -77,7 +77,7 @@ public class Window {
             throw new IllegalStateException("Unable to initialize GLFW");
         }
 
-        long window = GLFW.glfwCreateWindow(
+        window = GLFW.glfwCreateWindow(
             width,
             height,
             "Renderer",
