@@ -14,9 +14,7 @@ public class Shader {
 
     private final Map<String, Integer> uniforms;
     private int programId;
-    @SuppressWarnings("unused")
     private int vertexShaderId;
-    @SuppressWarnings("unused")
     private int fragmentShaderId;
 
 
@@ -161,5 +159,18 @@ public class Shader {
         if (location == null) return;
 
         GL20.glUniform3f(location, value.x, value.y, value.z);
+    }
+
+
+
+    // cleanup
+    public void cleanup() {
+        unbind();
+
+        if (programId != 0) {
+            GL20.glDeleteShader(vertexShaderId);
+            GL20.glDeleteShader(fragmentShaderId);
+            GL20.glDeleteProgram(programId);
+        }
     }
 }

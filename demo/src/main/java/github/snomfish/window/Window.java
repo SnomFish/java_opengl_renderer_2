@@ -2,24 +2,15 @@ package github.snomfish.window;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL11;
 
 public class Window {
 
 
-    private static final int defaultWidth = 1280;
-    private static final int defaultHeight = 720;
-    private static final String defaultTitle = "Renderer";
-
-    private Long window;
+    private Long windowHandle;
 
     private int width;
     private int height;
     private final String title;
-
-    @SuppressWarnings("unused")
-    private int fps;
-    private long frameTime;
     
 
     // constructors
@@ -29,11 +20,6 @@ public class Window {
         this.width = width;
         this.height = height;
         this.title = title;
-
-        setFps(60);
-    }
-    public Window() {
-        this(defaultWidth, defaultHeight, defaultTitle);
     }
 
 
@@ -49,35 +35,14 @@ public class Window {
     }
 
 
-    // setter
-    public void setFps(int fps) {
-        fps = Math.max(fps, 1);
-        frameTime = 1000_000_000 / (long)fps;
-    }
-
-
-
-
-    public void run() {
-        
-        init();
-        loop();
-
-        GLFW.glfwDestroyWindow(window);
-        GLFW.glfwTerminate();
-    }
-
-
-
-
-    private void init() {
+    public void init() {
         
         // initialises GLFW library, must be called before any other GLFW function
         if (!GLFW.glfwInit()) {
             throw new IllegalStateException("Unable to initialize GLFW");
         }
 
-        window = GLFW.glfwCreateWindow(
+        windowHandle = GLFW.glfwCreateWindow(
             width,
             height,
             "Renderer",
@@ -85,45 +50,19 @@ public class Window {
             0
         );
 
-        GLFW.glfwMakeContextCurrent(window);
+        GLFW.glfwMakeContextCurrent(windowHandle);
         
         GL.createCapabilities();
     }
 
 
-
-
-    private void loop() {
-
-        long lastFrame = System.nanoTime();
-        long currentTime = lastFrame;
-        long deltaTime;
-
-        while(!GLFW.glfwWindowShouldClose(window)) {
-
-            currentTime = System.nanoTime();
-            deltaTime = currentTime - lastFrame;
-            if (deltaTime > frameTime) {
-
-                lastFrame = currentTime;
-                update(deltaTime);
-            }
-        }
+    public boolean shouldClose() {
+        return GLFW.glfwWindowShouldClose(windowHandle);
     }
 
 
-
-
-    private void update(
-        long deltaTime
-    ) {
-        GLFW.glfwPollEvents();
-
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-
-        // draw
-
-        GLFW.glfwSwapBuffers(window);
-
+    public void cleanup() {
+        GLFW.glfwDestroyWindow(windowHandle);
+        GLFW.glfwTerminate();
     }
 }
