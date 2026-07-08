@@ -1,11 +1,9 @@
 package github.snomfish;
 
-import github.snomfish.window.Window;
-
 public class Main {
     public static void main(String[] args) {
         
-        Window window = new Window();
-        window.run();
+        Engine engine = new Engine();
+        engine.run();
     }
 }

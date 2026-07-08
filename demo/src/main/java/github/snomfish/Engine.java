@@ -60,7 +60,7 @@ public class Engine {
             currentTime = System.nanoTime();
             deltaTime = currentTime - lastFrame;
 
-            if (deltaTime > lastFrame) {
+            if (deltaTime >= lastFrame + frameInterval) {
                 lastFrame = currentTime;
                 update(deltaTime);
                 render(deltaTime);

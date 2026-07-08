@@ -1,13 +1,13 @@
 package github.snomfish.graphics;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
+
+import github.snomfish.FileReader;
 
 public class Shader {
     
@@ -45,7 +45,7 @@ public class Shader {
 
 
     private void loadVertexShader(String path) {
-        String source = loadFile(path);
+        String source = FileReader.read(path);
         vertexShaderId = compileShader(
             source,
             GL20.GL_VERTEX_SHADER
@@ -54,29 +54,11 @@ public class Shader {
 
 
     private void loadFragmentShader(String path) {
-        String source = loadFile(path);
+        String source = FileReader.read(path);
         vertexShaderId = compileShader(
             source,
             GL20.GL_FRAGMENT_SHADER
         );
-    }
-
-
-    private String loadFile(String path) {
-        try {
-            return Files.readString(
-                Paths.get(
-                    getClass()
-                        .getClassLoader()
-                        .getResource(path)
-                        .toURI()
-                )
-            );
-
-        } catch (Exception e) {
-            throw new RuntimeException("Could not load shader: " + path, e);
-
-        }
     }
 
 
