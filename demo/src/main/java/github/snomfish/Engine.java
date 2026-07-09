@@ -5,6 +5,7 @@ import github.snomfish.graphics.Shader;
 import github.snomfish.input.Input;
 import github.snomfish.scene.Scene;
 import github.snomfish.scene.components.CameraCmp;
+import github.snomfish.scene.components.LightCmp;
 import github.snomfish.scene.components.MeshCmp;
 import github.snomfish.scene.components.PlayerCmp;
 import github.snomfish.scene.components.TransformCmp;
@@ -66,6 +67,10 @@ public class Engine {
         scene.addComponent(playerId, new CameraCmp());
         scene.addComponent(playerId, new PlayerCmp());
         scene.addComponent(playerId, new TransformCmp(0, 0, 0, 0, 0, 0, 1, 1, 1));
+
+        Integer lightId = scene.newEntity();
+        scene.addComponent(lightId, new LightCmp());
+        scene.addComponent(lightId, new TransformCmp(0, 3, 0, 0, 0, 0, 1, 1, 1));
 
         Integer meshId = scene.newEntity();
         Mesh mesh = MeshBuilder.cube();
