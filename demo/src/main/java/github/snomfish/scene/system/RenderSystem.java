@@ -2,8 +2,6 @@ package github.snomfish.scene.system;
 
 import java.util.List;
 
-import org.joml.Vector3f;
-
 import github.snomfish.graphics.Material;
 import github.snomfish.graphics.Mesh;
 import github.snomfish.graphics.Shader;

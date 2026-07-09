@@ -1,7 +1,5 @@
 package github.snomfish.scene.components;
 
-import org.joml.Vector3f;
-
 import github.snomfish.graphics.Material;
 import github.snomfish.scene.Component;
 
