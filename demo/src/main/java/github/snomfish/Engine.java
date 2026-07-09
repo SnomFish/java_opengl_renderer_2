@@ -17,6 +17,7 @@ import github.snomfish.scene.system.CameraSystem;
 import github.snomfish.scene.system.InputSystem;
 import github.snomfish.scene.system.LightSystem;
 import github.snomfish.scene.system.RenderSystem;
+import github.snomfish.scene.system.RotationSystem;
 import github.snomfish.scene.system.TransformSystem;
 import github.snomfish.window.Window;
 
@@ -34,6 +35,7 @@ public class Engine {
     private InputSystem inputSystem;
     private LightSystem lightSystem;
     private RenderSystem renderSystem;
+    private RotationSystem rotationSystem;
     private TransformSystem transformSystem;
 
     private int fps;
@@ -80,7 +82,7 @@ public class Engine {
         scene.add(playerId, new TransformCmp(0, 0, 0, 0, 0, 0, 1, 1, 1));
 
         lightId = scene.newEntity();
-        scene.add(lightId, new LightCmp());
+        scene.add(lightId, new LightCmp(0.0f, 0.0f, 1.0f, 4.0f));
         scene.add(lightId, new TransformCmp(0, 3, 0, 0, 0, 0, 1, 1, 1));
 
         Integer meshId = scene.newEntity();
@@ -93,6 +95,7 @@ public class Engine {
         inputSystem = new InputSystem();
         lightSystem = new LightSystem();
         renderSystem = new RenderSystem();
+        rotationSystem = new RotationSystem();
         transformSystem = new TransformSystem();
     }
 
@@ -120,6 +123,7 @@ public class Engine {
         window.update();
         inputSystem.update(scene, deltaTime);
         lightSystem.update(scene, deltaTime);
+        rotationSystem.update(scene, deltaTime);
         transformSystem.update(scene);
         cameraSystem.update(scene, window.getAspect());
 

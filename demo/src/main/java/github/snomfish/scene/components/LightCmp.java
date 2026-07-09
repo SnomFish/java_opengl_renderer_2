@@ -18,7 +18,7 @@ public class LightCmp implements Component {
         this.intensity = i;
     }
     public LightCmp() {
-        this(0.5f, 0.5f, 1.0f, 20f);
+        this(0.5f, 0.5f, 1.0f, 1.0f);
     }
 
 
@@ -26,7 +26,7 @@ public class LightCmp implements Component {
     public Vector3f getColour() {
         return colour;
     }
-    public Float getItensity() {
+    public Float getIntensity() {
         return intensity;
     }
 

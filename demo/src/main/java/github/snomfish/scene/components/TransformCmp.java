@@ -67,15 +67,23 @@ public class TransformCmp implements Component {
 
     public void translate(float dx, float dy, float dz) {
         this.position.add(dx, dy, dz);
-        updateFlag = false;
+        updateFlag = true;
     }
+    public void translateX(float delta) {translate(delta, 0, 0);}
+    public void translateY(float delta) {translate(0, delta, 0);}
+    public void translateZ(float delta) {translate(0, 0, delta);}
+
     public void rotate(float dx, float dy, float dz) {
         this.rotation.add(dx, dy, dz);
-        updateFlag = false;
+        updateFlag = true;
     }
+    public void rotateX(float delta) {rotate(delta, 0, 0);}
+    public void rotateY(float delta) {rotate(0, delta, 0);}
+    public void rotateZ(float delta) {rotate(0, 0, delta);}
+
     public void scale(float dx, float dy, float dz) {
         this.scale.add(dx, dy, dz);
-        updateFlag = false;
+        updateFlag = true;
     }
 
 
@@ -87,6 +95,7 @@ public class TransformCmp implements Component {
             0,
             cos * -delta
         );
+        updateFlag = true;
     }
     public void strafeX(float delta) {
         float sin = (float) Math.sin(Math.toRadians(rotation.y));
@@ -96,5 +105,6 @@ public class TransformCmp implements Component {
             0,
             sin * delta
         );
+        updateFlag = true;
     }
 }
