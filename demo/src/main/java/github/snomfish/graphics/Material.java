@@ -2,8 +2,9 @@ package github.snomfish.graphics;
 
 import org.joml.Vector3f;
 
-public class Material {
+public class Material implements Asset {
 
+    private final String name;
 
     // diffuse and specular both store rgb values, diffuse uses the objects colour too
     private Vector3f diffuse = new Vector3f();
@@ -12,8 +13,9 @@ public class Material {
 
 
     public Material(
-        float dx, float dy, float dz, float sx, float sy, float sz, float shininess
+        String name, float dx, float dy, float dz, float sx, float sy, float sz, float shininess
     ) {
+        this.name = name;
         diffuse.set(dx, dy, dz);
         specular.set(sx, sy, sz);
         this.shininess = shininess;
@@ -21,6 +23,9 @@ public class Material {
 
 
     // getter
+    public String getName() {
+        return name;
+    }
     public Vector3f getDiffuse() {
         return diffuse;
     }
