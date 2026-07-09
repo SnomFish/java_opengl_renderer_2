@@ -8,21 +8,6 @@ import org.lwjgl.opengl.GL30;
 public class Mesh {
 
 
-    public static Mesh square() {
-        float[] vertices = {
-            0.5f, 0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            -0.5f, 0.5f, 0.0f,
-            -0.5f, -0.5f, 0.0f
-        };
-        int[] indices = {
-            0, 1, 2,
-            1, 2, 3
-        };
-        return new Mesh(vertices, indices);
-    }
-    
-
     private int vao;
     private int vbo;
     private int ebo;
@@ -87,11 +72,22 @@ public class Mesh {
             3,
             GL11.GL_FLOAT,
             false,
-            3 * Float.BYTES,
+            6 * Float.BYTES,
             0
         );
 
         GL20.glEnableVertexAttribArray(0);
+
+        GL20.glVertexAttribPointer(
+            1,
+            3,
+            GL11.GL_FLOAT,
+            false,
+            6 * Float.BYTES,
+            3 * Float.BYTES
+        );
+
+        GL20.glEnableVertexAttribArray(1);
     }
 
 

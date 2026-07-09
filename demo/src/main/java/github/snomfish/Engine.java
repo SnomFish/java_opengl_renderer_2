@@ -32,7 +32,7 @@ public class Engine {
 
 
     public Engine() {
-        fps = 120;
+        fps = 60;
         frameInterval = 1_000_000_000 / fps;
     }
 
@@ -67,10 +67,10 @@ public class Engine {
         scene.addComponent(playerId, new PlayerCmp());
         scene.addComponent(playerId, new TransformCmp(0, 0, 0, 0, 0, 0, 1, 1, 1));
 
-        Integer testSquareId = scene.newEntity();
-        Mesh testSquareMesh = Mesh.square();
-        scene.addComponent(testSquareId, new MeshCmp(testSquareMesh));
-        scene.addComponent(testSquareId, new TransformCmp(0, 0, -5, 0, 0, 0, 1, 1, 1));
+        Integer meshId = scene.newEntity();
+        Mesh mesh = MeshBuilder.cube();
+        scene.addComponent(meshId, new MeshCmp(mesh));
+        scene.addComponent(meshId, new TransformCmp(0, 0, -5, 0, 0, 0, 1, 1, 1));
         
         cameraSystem = new CameraSystem();
         inputSystem = new InputSystem();
