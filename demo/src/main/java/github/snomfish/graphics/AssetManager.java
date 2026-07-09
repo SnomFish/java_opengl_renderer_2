@@ -8,7 +8,7 @@ import github.snomfish.FileManager;
 public class AssetManager {
     
 
-    private static final String materialFilePath = "materials.json";
+    private static final String materialFilePath = "materials/materials.json";
 
     private static final Map<AssetKey, Asset> assets = new HashMap<>();
 
@@ -36,7 +36,7 @@ public class AssetManager {
     }
 
 
-    public static void add(String name, Asset asset) {
+    public static <T extends Asset> void add(String name, Asset asset) {
         AssetKey key = new AssetKey(name, asset.getClass());
         assets.put(key, asset);
     } 

@@ -1,5 +1,7 @@
 package github.snomfish;
 
+import github.snomfish.graphics.AssetManager;
+import github.snomfish.graphics.Material;
 import github.snomfish.graphics.Mesh;
 import github.snomfish.graphics.Renderer;
 import github.snomfish.graphics.Shader;
@@ -7,6 +9,7 @@ import github.snomfish.input.Input;
 import github.snomfish.scene.Scene;
 import github.snomfish.scene.components.CameraCmp;
 import github.snomfish.scene.components.LightCmp;
+import github.snomfish.scene.components.MaterialCmp;
 import github.snomfish.scene.components.MeshCmp;
 import github.snomfish.scene.components.PlayerCmp;
 import github.snomfish.scene.components.TransformCmp;
@@ -82,8 +85,9 @@ public class Engine {
 
         Integer meshId = scene.newEntity();
         Mesh mesh = MeshBuilder.cube();
+        scene.add(meshId, new MaterialCmp(AssetManager.get("wood", Material.class)));
         scene.add(meshId, new MeshCmp(mesh));
-        scene.add(meshId, new TransformCmp(0, 0, -5, 0, 0, 0, 1, 1, 1));
+        scene.add(meshId, new TransformCmp(0, 0, -5, 0, 45, 0, 1, 1, 1));
         
         cameraSystem = new CameraSystem();
         inputSystem = new InputSystem();

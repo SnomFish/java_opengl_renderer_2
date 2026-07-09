@@ -10,6 +10,7 @@ import java.util.Set;
 
 import github.snomfish.scene.components.CameraCmp;
 import github.snomfish.scene.components.LightCmp;
+import github.snomfish.scene.components.MaterialCmp;
 import github.snomfish.scene.components.MeshCmp;
 import github.snomfish.scene.components.PlayerCmp;
 import github.snomfish.scene.components.TransformCmp;
@@ -28,6 +29,7 @@ public class Scene {
 
         newComponent(CameraCmp.class);
         newComponent(LightCmp.class);
+        newComponent(MaterialCmp.class);
         newComponent(MeshCmp.class);
         newComponent(PlayerCmp.class);
         newComponent(TransformCmp.class);

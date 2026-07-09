@@ -4,7 +4,7 @@ import org.joml.Vector3f;
 
 public class Material implements Asset {
 
-    private final String name;
+    private String name;
 
     // diffuse and specular both store rgb values, diffuse uses the objects colour too
     private Vector3f diffuse = new Vector3f();
@@ -12,14 +12,7 @@ public class Material implements Asset {
     private float shininess;
 
 
-    public Material(
-        String name, float dx, float dy, float dz, float sx, float sy, float sz, float shininess
-    ) {
-        this.name = name;
-        diffuse.set(dx, dy, dz);
-        specular.set(sx, sy, sz);
-        this.shininess = shininess;
-    }
+    public Material() {}
 
 
     // getter
@@ -38,6 +31,9 @@ public class Material implements Asset {
 
 
     // setter
+    public void setName(String name) {
+        this.name = name;
+    }
     public void setDiffuse(float dx, float dy, float dz) {
         this.diffuse.set(dx, dy, dz);
     }

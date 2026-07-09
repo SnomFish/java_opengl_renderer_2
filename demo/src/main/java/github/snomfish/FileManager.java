@@ -14,15 +14,15 @@ public class FileManager {
     public static String read(String filePath) {
         try {
 
-            InputStream inputStream = Thread.currentThread()
+            InputStream is = Thread.currentThread()
                 .getContextClassLoader()
                 .getResourceAsStream(filePath);
 
-            if (inputStream == null) {
+            if (is == null) {
                 throw new RuntimeException("File not found in resources: " + filePath);
             }
 
-            return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+            return new String(is.readAllBytes(), StandardCharsets.UTF_8);
 
         } catch (IOException e) {
             throw new RuntimeException("Failed to read file at " + filePath, e);
@@ -34,7 +34,9 @@ public class FileManager {
     public static <T> T parse(String filePath, Class<T> clazz) {
         try {
 
-            InputStream is = FileManager.class.getResourceAsStream(filePath);
+            InputStream is = Thread.currentThread()
+                .getContextClassLoader()
+                .getResourceAsStream(filePath);
 
             if (is == null) {
                 throw new FileNotFoundException("file " + filePath + " not found.");
