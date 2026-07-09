@@ -11,6 +11,7 @@ import github.snomfish.scene.components.PlayerCmp;
 import github.snomfish.scene.components.TransformCmp;
 import github.snomfish.scene.system.CameraSystem;
 import github.snomfish.scene.system.InputSystem;
+import github.snomfish.scene.system.LightSystem;
 import github.snomfish.scene.system.RenderSystem;
 import github.snomfish.scene.system.TransformSystem;
 import github.snomfish.window.Window;
@@ -23,8 +24,10 @@ public class Engine {
     private Scene scene;
 
     private int playerId;
+    private int lightId;
     private CameraSystem cameraSystem;
     private InputSystem inputSystem;
+    private LightSystem lightSystem;
     private RenderSystem renderSystem;
     private TransformSystem transformSystem;
 
@@ -68,17 +71,18 @@ public class Engine {
         scene.addComponent(playerId, new PlayerCmp());
         scene.addComponent(playerId, new TransformCmp(0, 0, 0, 0, 0, 0, 1, 1, 1));
 
-        Integer lightId = scene.newEntity();
+        lightId = scene.newEntity();
         scene.addComponent(lightId, new LightCmp());
         scene.addComponent(lightId, new TransformCmp(0, 3, 0, 0, 0, 0, 1, 1, 1));
 
         Integer meshId = scene.newEntity();
-        Mesh mesh = MeshBuilder.cube();
+        Mesh mesh = MeshBuilder.square();
         scene.addComponent(meshId, new MeshCmp(mesh));
         scene.addComponent(meshId, new TransformCmp(0, 0, -5, 0, 0, 0, 1, 1, 1));
         
         cameraSystem = new CameraSystem();
         inputSystem = new InputSystem();
+        lightSystem = new LightSystem();
         renderSystem = new RenderSystem();
         transformSystem = new TransformSystem();
     }
@@ -106,6 +110,7 @@ public class Engine {
     private void update(float deltaTime) {
         window.update();
         inputSystem.update(scene, deltaTime);
+        lightSystem.update(scene, deltaTime);
         transformSystem.update(scene);
         cameraSystem.update(scene, window.getAspect());
 
@@ -115,7 +120,7 @@ public class Engine {
 
     private void render(float deltaTime) {
         renderSystem.beginFrame();
-        renderSystem.render(scene, shader, window.getAspect(), playerId);
+        renderSystem.render(scene, shader, window.getAspect(), playerId, lightId);
         renderSystem.endFrame();
     }
 

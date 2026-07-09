@@ -35,6 +35,10 @@ public class Shader {
         createUniform("model");
         createUniform("view");
         createUniform("projection");
+        createUniform("objectColour");
+
+        createUniform("lightColour");
+        createUniform("lightPosition");
     }
 
 

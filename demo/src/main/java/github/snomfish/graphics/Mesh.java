@@ -67,27 +67,17 @@ public class Mesh {
 
 
     private void configureVertexAttributes() {
-        GL20.glVertexAttribPointer(
-            0,
-            3,
-            GL11.GL_FLOAT,
-            false,
-            6 * Float.BYTES,
-            0
-        );
 
+        int stride = 8 * Float.BYTES;
+
+        GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, stride, 0);
         GL20.glEnableVertexAttribArray(0);
 
-        GL20.glVertexAttribPointer(
-            1,
-            3,
-            GL11.GL_FLOAT,
-            false,
-            6 * Float.BYTES,
-            3 * Float.BYTES
-        );
-
+        GL20.glVertexAttribPointer(1, 3, GL11.GL_FLOAT, false, stride, 3 * Float.BYTES);
         GL20.glEnableVertexAttribArray(1);
+
+        GL20.glVertexAttribPointer(2, 2, GL11.GL_FLOAT, false, stride, 6 * Float.BYTES);
+        GL20.glEnableVertexAttribArray(2);
     }
 
 
