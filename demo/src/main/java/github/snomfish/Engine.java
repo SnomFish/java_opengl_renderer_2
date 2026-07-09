@@ -1,6 +1,7 @@
 package github.snomfish;
 
 import github.snomfish.graphics.Mesh;
+import github.snomfish.graphics.Renderer;
 import github.snomfish.graphics.Shader;
 import github.snomfish.input.Input;
 import github.snomfish.scene.Scene;
@@ -21,6 +22,7 @@ public class Engine {
 
     private Window window;
     private Shader shader;
+    private Renderer renderer;
     private Scene scene;
 
     private int playerId;
@@ -59,6 +61,9 @@ public class Engine {
         window = new Window(1280, 720, "Renderer");
         window.init();
 
+        renderer = new Renderer();
+        renderer.init();
+
         shader = new Shader(
             "Vertex.glsl", 
             "Fragment.glsl"
@@ -76,7 +81,7 @@ public class Engine {
         scene.addComponent(lightId, new TransformCmp(0, 3, 0, 0, 0, 0, 1, 1, 1));
 
         Integer meshId = scene.newEntity();
-        Mesh mesh = MeshBuilder.square();
+        Mesh mesh = MeshBuilder.cube();
         scene.addComponent(meshId, new MeshCmp(mesh));
         scene.addComponent(meshId, new TransformCmp(0, 0, -5, 0, 0, 0, 1, 1, 1));
         
@@ -119,9 +124,9 @@ public class Engine {
 
 
     private void render(float deltaTime) {
-        renderSystem.beginFrame();
+        renderer.beginFrame();
         renderSystem.render(scene, shader, window.getAspect(), playerId, lightId);
-        renderSystem.endFrame();
+        renderer.endFrame();
     }
 
 

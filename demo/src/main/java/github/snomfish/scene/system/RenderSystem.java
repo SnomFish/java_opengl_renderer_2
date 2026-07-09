@@ -1,7 +1,6 @@
 package github.snomfish.scene.system;
 
 import org.joml.Vector3f;
-import org.lwjgl.opengl.GL11;
 
 import github.snomfish.graphics.Shader;
 import github.snomfish.scene.Scene;
@@ -12,16 +11,6 @@ import github.snomfish.scene.components.PlayerCmp;
 import github.snomfish.scene.components.TransformCmp;
 
 public class RenderSystem {
-    
-
-    public void beginFrame() {
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-    }
-
-
-    public void endFrame() {
-
-    }
 
     
     public void render(Scene scene, Shader shader, float aspect, Integer playerId, Integer lightId) {
