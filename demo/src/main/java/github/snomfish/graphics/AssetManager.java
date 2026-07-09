@@ -36,8 +36,8 @@ public class AssetManager {
     }
 
 
-    public static <T extends Asset> void add(String name, Class<T> clazz, Asset asset) {
-        AssetKey key = new AssetKey(name, clazz);
+    public static void add(String name, Asset asset) {
+        AssetKey key = new AssetKey(name, asset.getClass());
         assets.put(key, asset);
     } 
 

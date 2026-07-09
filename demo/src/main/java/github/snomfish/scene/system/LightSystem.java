@@ -10,7 +10,7 @@ public class LightSystem {
 
         for (Integer id : scene.getEntitiesWith(LightCmp.class)) {
 
-            LightCmp l = scene.getComponent(id, LightCmp.class);
+            LightCmp l = scene.get(id, LightCmp.class);
 
             if (l == null) continue;
 

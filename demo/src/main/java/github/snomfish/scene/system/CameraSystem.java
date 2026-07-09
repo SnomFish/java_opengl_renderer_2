@@ -1,5 +1,7 @@
 package github.snomfish.scene.system;
 
+import java.util.List;
+
 import org.joml.Vector3f;
 
 import github.snomfish.scene.Scene;
@@ -11,13 +13,13 @@ public class CameraSystem {
 
     public void update(Scene scene, float aspect) {
         
-        for (Integer id : scene.getEntitiesWith(CameraCmp.class)) {
+        for (Integer id : scene.getEntitiesWith(List.of(
+            CameraCmp.class, 
+            TransformCmp.class
+        ))) {
 
-            CameraCmp c = scene.getComponent(id, CameraCmp.class);
-            TransformCmp t = scene.getComponent(id, TransformCmp.class);
-
-            if (t == null) continue;
-            //if (c.getUpdateFlag()) continue;
+            CameraCmp c = scene.get(id, CameraCmp.class);
+            TransformCmp t = scene.get(id, TransformCmp.class);
             
             Vector3f pos = t.getPosition();
             Vector3f rot = t.getRotation();

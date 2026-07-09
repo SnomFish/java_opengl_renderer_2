@@ -1,5 +1,7 @@
 package github.snomfish.scene.system;
 
+import java.util.List;
+
 import org.lwjgl.glfw.GLFW;
 
 import github.snomfish.input.Input;
@@ -12,12 +14,13 @@ public class InputSystem {
 
     public void update(Scene scene, float deltaTime) {
 
-        for (Integer id : scene.getEntitiesWith(PlayerCmp.class)) {
+        for (Integer id : scene.getEntitiesWith(List.of(
+            PlayerCmp.class,
+            TransformCmp.class
+        ))) {
             
-            PlayerCmp p = scene.getComponent(id, PlayerCmp.class);
-            TransformCmp t = scene.getComponent(id, TransformCmp.class);
-
-            if (t == null) continue;
+            PlayerCmp p = scene.get(id, PlayerCmp.class);
+            TransformCmp t = scene.get(id, TransformCmp.class);
 
             float speed = p.getSpeed();
 

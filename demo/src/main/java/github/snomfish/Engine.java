@@ -72,18 +72,18 @@ public class Engine {
         scene = new Scene();
 
         playerId = scene.newEntity();
-        scene.addComponent(playerId, new CameraCmp());
-        scene.addComponent(playerId, new PlayerCmp());
-        scene.addComponent(playerId, new TransformCmp(0, 0, 0, 0, 0, 0, 1, 1, 1));
+        scene.add(playerId, new CameraCmp());
+        scene.add(playerId, new PlayerCmp());
+        scene.add(playerId, new TransformCmp(0, 0, 0, 0, 0, 0, 1, 1, 1));
 
         lightId = scene.newEntity();
-        scene.addComponent(lightId, new LightCmp());
-        scene.addComponent(lightId, new TransformCmp(0, 3, 0, 0, 0, 0, 1, 1, 1));
+        scene.add(lightId, new LightCmp());
+        scene.add(lightId, new TransformCmp(0, 3, 0, 0, 0, 0, 1, 1, 1));
 
         Integer meshId = scene.newEntity();
         Mesh mesh = MeshBuilder.cube();
-        scene.addComponent(meshId, new MeshCmp(mesh));
-        scene.addComponent(meshId, new TransformCmp(0, 0, -5, 0, 0, 0, 1, 1, 1));
+        scene.add(meshId, new MeshCmp(mesh));
+        scene.add(meshId, new TransformCmp(0, 0, -5, 0, 0, 0, 1, 1, 1));
         
         cameraSystem = new CameraSystem();
         inputSystem = new InputSystem();

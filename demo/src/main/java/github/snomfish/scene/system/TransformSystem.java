@@ -12,7 +12,7 @@ public class TransformSystem {
 
         for (Integer id : scene.getEntitiesWith(TransformCmp.class)) {
 
-            TransformCmp t = scene.getComponent(id, TransformCmp.class);
+            TransformCmp t = scene.get(id, TransformCmp.class);
 
             // prevents meshes that havent moved from wasting time recalcing the same model matrix
             if (!t.getUpdateFlag()) continue;

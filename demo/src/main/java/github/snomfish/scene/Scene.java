@@ -1,7 +1,9 @@
 package github.snomfish.scene;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,7 +19,7 @@ public class Scene {
 
     private static int nextId;
     private final List<Integer> entities;
-    private final Map<Class<?>, Map<Integer, Component>> components;
+    private final Map<Class<? extends Component>, Map<Integer, Component>> components;
 
 
     public Scene() {
@@ -39,53 +41,68 @@ public class Scene {
     }
 
 
-
-
-    // components
-    public void newComponent(Class<? extends Component> clazz) {
+    public <T extends Component> void newComponent(Class<T> clazz) {
         components.put(clazz, new HashMap<>());
-        System.out.println("loaded component " + clazz.getSimpleName());
-    }
-
-
-    public void addComponent(Integer id, Component component) {
-        Class<? extends Component> clazz = component.getClass();
-
-        if (!components.containsKey(clazz)) {
-            throw new RuntimeException("failed to add component to " + clazz.getSimpleName() + ", not added to components map");
-        }
-
-        components.get(clazz).put(id, component);
-    }
-
-
-    public void removeComponent(Integer id, Class<? extends Component> clazz) {
-        
-        if (!components.containsKey(clazz)) {
-            throw new RuntimeException("failed to remove component from " + clazz.getSimpleName() + ", not added to components map");
-        }
-
-        components.get(clazz).remove(id);
     }
 
 
     @SuppressWarnings("unchecked")
-    public <T extends Component> T getComponent(Integer id, Class<T> clazz) {
-
+    public <T extends Component> T get(Integer id, Class<T> clazz) {
         if (!components.containsKey(clazz)) {
-            throw new RuntimeException("failed to get component " + clazz.getSimpleName());
+            throw new RuntimeException("unable to get, class " + clazz.getSimpleName() + " not found in scene");
         }
-
         return (T) components.get(clazz).get(id);
     }
 
 
-    public Set<Integer> getEntitiesWith(Class<? extends Component> clazz) {
-
+    public <T extends Component> void add(Integer id, T component) {
+        Class<? extends Component> clazz = component.getClass();
         if (!components.containsKey(clazz)) {
-            throw new RuntimeException("failed to get component " + clazz.getSimpleName());
+            throw new RuntimeException("unable to add, class " + clazz.getSimpleName() + " not found in scene");
+        }
+        components.get(clazz).put(id, component);
+    }
+
+
+    public <T extends Component> void remove(Integer id, Class<T> clazz) {
+        if (!components.containsKey(clazz)) {
+            throw new RuntimeException("unable to remove, class " + clazz.getSimpleName() + " not found in scene");
+        }
+        components.get(clazz).remove(id);
+    }
+
+
+    public <T extends Component> Set<Integer> getEntitiesWith(Class<T> clazz) {
+        if (!components.containsKey(clazz)) {
+            throw new RuntimeException("unable to getEntitiesWith, class " + clazz.getSimpleName() + " not found in scene");
+        }
+        return components.get(clazz).keySet(); 
+    }
+
+
+    private Set<Integer> getEntitiesWith(Set<Integer> candidates, List<Class<? extends Component>> clazzes) {
+        if (clazzes.isEmpty()) {
+            return candidates;
         }
 
-        return components.get(clazz).keySet();
+        Class<? extends Component> clazz = clazzes.get(0);
+        if (!components.containsKey(clazz)) {
+            throw new RuntimeException("unable to getEntitiesWith, class " + clazz.getSimpleName() + " not found in scene");
+        } 
+
+        candidates.removeIf(id -> !components.get(clazz).containsKey(id));
+
+        return getEntitiesWith(candidates, clazzes.subList(1, clazzes.size()));
+    }
+    public Set<Integer> getEntitiesWith(List<Class<? extends Component>> clazzes) {
+        if (clazzes.isEmpty()) {
+            return Collections.emptySet();
+        }
+
+        // optimisation: sort the list in ascending size order to quickly cut down on candidates
+
+        Set<Integer> candidates = new HashSet<>(components.get(clazzes.get(0)).keySet());
+
+        return getEntitiesWith(candidates, clazzes.subList(1, clazzes.size())); 
     }
 }

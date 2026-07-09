@@ -1,5 +1,7 @@
 package github.snomfish.scene.system;
 
+import java.util.List;
+
 import org.joml.Vector3f;
 
 import github.snomfish.graphics.Shader;
@@ -15,10 +17,10 @@ public class RenderSystem {
     
     public void render(Scene scene, Shader shader, float aspect, Integer playerId, Integer lightId) {
 
-        PlayerCmp p = scene.getComponent(playerId, PlayerCmp.class);
-        LightCmp l = scene.getComponent(lightId, LightCmp.class);
-        TransformCmp lt = scene.getComponent(lightId, TransformCmp.class);
-        CameraCmp c = scene.getComponent(playerId, CameraCmp.class);
+        PlayerCmp p = scene.get(playerId, PlayerCmp.class);
+        LightCmp l = scene.get(lightId, LightCmp.class);
+        TransformCmp lt = scene.get(lightId, TransformCmp.class);
+        CameraCmp c = scene.get(playerId, CameraCmp.class);
         
         if (p == null || l == null || c == null) {
             return;
@@ -31,12 +33,13 @@ public class RenderSystem {
         shader.setUniform("lightColour", l.getColour());
         shader.setUniform("lightPosition", lt.getPosition());
 
-        for (Integer id : scene.getEntitiesWith(MeshCmp.class)) {
+        for (Integer id : scene.getEntitiesWith(List.of(
+            MeshCmp.class,
+            TransformCmp.class
+        ))) {
 
-            MeshCmp m = scene.getComponent(id, MeshCmp.class);
-            TransformCmp t = scene.getComponent(id, TransformCmp.class);
-
-            if (m == null || t == null) continue;
+            MeshCmp m = scene.get(id, MeshCmp.class);
+            TransformCmp t = scene.get(id, TransformCmp.class);
 
             shader.setUniform("model", t.getModelMatrix());
             shader.setUniform("objectColour", new Vector3f(1.0f, 1.0f, 1.0f));
