@@ -3,6 +3,8 @@ package github.snomfish.window;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 
+import github.snomfish.input.Input;
+
 public class Window {
 
 
@@ -53,7 +55,18 @@ public class Window {
             0
         );
 
+        if (windowHandle == 0) {
+            throw new RuntimeException("Failed to create window");
+        }
+
+        GLFW.glfwSetInputMode(
+            windowHandle,
+            GLFW.GLFW_CURSOR,
+            GLFW.GLFW_CURSOR_DISABLED
+        );
         GLFW.glfwMakeContextCurrent(windowHandle);
+        GLFW.glfwSetKeyCallback(windowHandle, Input::keyCallback);
+        GLFW.glfwSetCursorPosCallback(windowHandle, Input::mouseCallback);
         
         GL.createCapabilities();
     }

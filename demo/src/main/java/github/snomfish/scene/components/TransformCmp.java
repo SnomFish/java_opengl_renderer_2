@@ -77,4 +77,24 @@ public class TransformCmp implements Component {
         this.scale.add(dx, dy, dz);
         updateFlag = false;
     }
+
+
+    public void forwardsX(float delta) {
+        float sin = (float) Math.sin(Math.toRadians(rotation.y));
+        float cos = (float) Math.cos(Math.toRadians(rotation.y));
+        translate(
+            sin * delta,
+            0,
+            cos * -delta
+        );
+    }
+    public void strafeX(float delta) {
+        float sin = (float) Math.sin(Math.toRadians(rotation.y));
+        float cos = (float) Math.cos(Math.toRadians(rotation.y));
+        translate(
+            cos * delta,
+            0,
+            sin * delta
+        );
+    }
 }

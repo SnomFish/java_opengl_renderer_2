@@ -25,13 +25,16 @@ public class RenderSystem {
     public void render(Scene scene, Shader shader, float aspect, Integer playerId) {
 
         PlayerCmp p = scene.getComponent(playerId, PlayerCmp.class);
-
-        int cameraId = p.getCameraId();
-        CameraCmp camera = scene.getComponent(cameraId, CameraCmp.class);
+        CameraCmp c = scene.getComponent(playerId, CameraCmp.class);
+        
+        if (p == null || c == null) {
+            System.out.println("test");
+            return;
+        }
 
         shader.bind();
-        shader.setUniform("view", camera.getView());
-        shader.setUniform("projection", camera.getProjection());
+        shader.setUniform("view", c.getView());
+        shader.setUniform("projection", c.getProjection());
 
         for (Integer id : scene.getEntitiesWith(MeshCmp.class)) {
 

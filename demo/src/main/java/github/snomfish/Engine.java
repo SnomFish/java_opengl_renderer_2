@@ -2,12 +2,14 @@ package github.snomfish;
 
 import github.snomfish.graphics.Mesh;
 import github.snomfish.graphics.Shader;
+import github.snomfish.input.Input;
 import github.snomfish.scene.Scene;
 import github.snomfish.scene.components.CameraCmp;
 import github.snomfish.scene.components.MeshCmp;
 import github.snomfish.scene.components.PlayerCmp;
 import github.snomfish.scene.components.TransformCmp;
 import github.snomfish.scene.system.CameraSystem;
+import github.snomfish.scene.system.InputSystem;
 import github.snomfish.scene.system.RenderSystem;
 import github.snomfish.scene.system.TransformSystem;
 import github.snomfish.window.Window;
@@ -21,6 +23,7 @@ public class Engine {
 
     private int playerId;
     private CameraSystem cameraSystem;
+    private InputSystem inputSystem;
     private RenderSystem renderSystem;
     private TransformSystem transformSystem;
 
@@ -29,7 +32,7 @@ public class Engine {
 
 
     public Engine() {
-        fps = 60;
+        fps = 120;
         frameInterval = 1_000_000_000 / fps;
     }
 
@@ -58,13 +61,10 @@ public class Engine {
         );
 
         scene = new Scene();
-        
-        Integer cameraId = scene.newEntity();
-        scene.addComponent(cameraId, new CameraCmp());
-        scene.addComponent(cameraId, new TransformCmp(0, 0, 0, 0, 0, 0, 1, 1, 1));
 
         playerId = scene.newEntity();
-        scene.addComponent(playerId, new PlayerCmp(cameraId));
+        scene.addComponent(playerId, new CameraCmp());
+        scene.addComponent(playerId, new PlayerCmp());
         scene.addComponent(playerId, new TransformCmp(0, 0, 0, 0, 0, 0, 1, 1, 1));
 
         Integer testSquareId = scene.newEntity();
@@ -73,6 +73,7 @@ public class Engine {
         scene.addComponent(testSquareId, new TransformCmp(0, 0, -5, 0, 0, 0, 1, 1, 1));
         
         cameraSystem = new CameraSystem();
+        inputSystem = new InputSystem();
         renderSystem = new RenderSystem();
         transformSystem = new TransformSystem();
     }
@@ -90,8 +91,8 @@ public class Engine {
 
             if (deltaTime >= frameInterval) {
                 lastFrame = currentTime;
-                update(deltaTime);
-                render(deltaTime);
+                update(deltaTime / 1_000_000_000f);
+                render(deltaTime / 1_000_000_000f);
             }
         }
     }
@@ -99,8 +100,11 @@ public class Engine {
 
     private void update(float deltaTime) {
         window.update();
+        inputSystem.update(scene, deltaTime);
         transformSystem.update(scene);
         cameraSystem.update(scene, window.getAspect());
+
+        Input.endFrame();
     }
 
 

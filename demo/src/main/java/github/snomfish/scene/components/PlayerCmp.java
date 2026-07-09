@@ -5,22 +5,25 @@ import github.snomfish.scene.Component;
 public class PlayerCmp implements Component {
     
 
-    private int cameraId;
+    private float speed;
 
 
-    public PlayerCmp(int cameraId) {
-        this.cameraId = cameraId;        
+    public PlayerCmp(float speed) {
+        this.speed = speed;        
+    }
+    public PlayerCmp() {
+        this(5.0f);    
     }
 
 
     // getter
-    public int getCameraId() {
-        return cameraId;
+    public float getSpeed() {
+        return speed;
     }
 
 
     // setter
-    public void setCameraId(int cameraId) {
-        this.cameraId = cameraId;
+    public void setSpeed(float speed) {
+        this.speed = speed;
     }
 }
