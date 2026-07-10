@@ -102,7 +102,6 @@ public class Scene {
         }
 
         // optimisation: sort the list in ascending size order to quickly cut down on candidates
-
         Set<Integer> candidates = new HashSet<>(components.get(clazzes.get(0)).keySet());
 
         return getEntitiesWith(candidates, clazzes.subList(1, clazzes.size())); 

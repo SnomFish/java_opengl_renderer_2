@@ -35,11 +35,18 @@ public class Shader {
         createUniform("model");
         createUniform("view");
         createUniform("projection");
-
-        createUniform("lightColour");
-        createUniform("lightPosition");
-        createUniform("lightIntensity");
         createUniform("viewPosition");
+
+        createUniform("lights[0].position");
+        createUniform("lights[0].colour");
+        createUniform("lights[0].intensity");
+        createUniform("lights[1].position");
+        createUniform("lights[1].colour");
+        createUniform("lights[1].intensity");
+        createUniform("lights[2].position");
+        createUniform("lights[2].colour");
+        createUniform("lights[2].intensity");
+        createUniform("lightCount");
 
         createUniform("materialDiffuse");
         createUniform("materialSpecular");
@@ -70,7 +77,7 @@ public class Shader {
 
     private void loadFragmentShader(String path) {
         String source = FileManager.read(FOLDER_PATH + path);
-        vertexShaderId = compileShader(
+        fragmentShaderId = compileShader(
             source,
             GL20.GL_FRAGMENT_SHADER
         );
@@ -168,6 +175,11 @@ public class Shader {
 
             GL20.glUniformMatrix4fv(location, false, buffer);
         }
+    }
+    public void setLightUniform(int i, Vector3f position, Vector3f colour, float intensity) {
+        setUniform("lights[" + i + "].position", position);
+        setUniform("lights[" + i + "].colour", colour);
+        setUniform("lights[" + i + "].intensity", intensity);
     }
 
 

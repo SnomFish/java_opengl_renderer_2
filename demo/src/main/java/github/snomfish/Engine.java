@@ -31,7 +31,6 @@ public class Engine {
     private Scene scene;
 
     private int playerId;
-    private int lightId;
     private CameraSystem cameraSystem;
     private InputSystem inputSystem;
     private LightSystem lightSystem;
@@ -84,10 +83,17 @@ public class Engine {
             .add(new TransformCmp(0, 0, 0, 0, 0, 0, 1, 1, 1))
             .returnId();
 
-        lightId = sceneBuilder.newEntity()
-            .add(new LightCmp(0.0f, 0.0f, 1.0f, 4.0f))
-            .add(new TransformCmp(0, 3, 0, 0, 0, 0, 1, 1, 1))
-            .returnId();
+        sceneBuilder.newEntity()
+            .add(new LightCmp(0.0f, 0.0f, 1.0f, 2.0f))
+            .add(new TransformCmp(0, 3, 0, 0, 0, 0, 1, 1, 1));
+
+        sceneBuilder.newEntity()
+            .add(new LightCmp(1.0f, 0.0f, 0.0f, 2.0f))
+            .add(new TransformCmp(10, 3, -10, 0, 0, 0, 1, 1, 1));
+        
+        sceneBuilder.newEntity()
+            .add(new LightCmp(0.0f, 1.0f, 0.0f, 2.0f))
+            .add(new TransformCmp(-10, 3, -10, 0, 0, 0, 1, 1, 1));
 
         sceneBuilder.newEntity()
             .add(new MaterialCmp(AssetManager.get("wood", Material.class)))
@@ -136,7 +142,7 @@ public class Engine {
 
     private void render(float deltaTime) {
         renderer.beginFrame();
-        renderSystem.render(scene, shader, window.getAspect(), playerId, lightId);
+        renderSystem.render(scene, shader, window.getAspect(), playerId);
         renderer.endFrame();
     }
 
