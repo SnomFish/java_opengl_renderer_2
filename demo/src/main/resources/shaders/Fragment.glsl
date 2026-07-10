@@ -4,17 +4,14 @@
 
 
 struct Light {
-    vec4 position;
-    vec4 colour;
+    vec3 position;
+    vec3 colour;
     float intensity;
 };
 
 
-layout(std140) uniform LightBuffer {
-    int lightCount;
-    Light lights[MAX_LIGHTS];
-};
-
+uniform int lightCount;
+uniform Light lights[MAX_LIGHTS];
 
 uniform vec3 viewPosition;
 uniform vec3 materialDiffuse;
