@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import github.snomfish.scene.components.CameraCmp;
-import github.snomfish.scene.components.LightCmp;
+import github.snomfish.scene.components.PointLightCmp;
 import github.snomfish.scene.components.MaterialCmp;
 import github.snomfish.scene.components.MeshCmp;
 import github.snomfish.scene.components.PlayerCmp;
@@ -27,7 +27,7 @@ public class Scene {
         components = new HashMap<>();
 
         newComponent(CameraCmp.class);
-        newComponent(LightCmp.class);
+        newComponent(PointLightCmp.class);
         newComponent(MaterialCmp.class);
         newComponent(MeshCmp.class);
         newComponent(PlayerCmp.class);

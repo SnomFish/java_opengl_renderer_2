@@ -8,7 +8,7 @@ import github.snomfish.input.Input;
 import github.snomfish.scene.Scene;
 import github.snomfish.scene.SceneBuilder;
 import github.snomfish.scene.components.CameraCmp;
-import github.snomfish.scene.components.LightCmp;
+import github.snomfish.scene.components.PointLightCmp;
 import github.snomfish.scene.components.MaterialCmp;
 import github.snomfish.scene.components.MeshCmp;
 import github.snomfish.scene.components.PlayerCmp;
@@ -16,9 +16,10 @@ import github.snomfish.scene.components.RotationCmp;
 import github.snomfish.scene.components.TransformCmp;
 import github.snomfish.scene.system.CameraSystem;
 import github.snomfish.scene.system.InputSystem;
-import github.snomfish.scene.system.LightSystem;
+import github.snomfish.scene.system.PointLightSystem;
 import github.snomfish.scene.system.RenderSystem;
 import github.snomfish.scene.system.RotationSystem;
+import github.snomfish.scene.system.ShadowSystem;
 import github.snomfish.scene.system.TransformSystem;
 import github.snomfish.window.Window;
 
@@ -33,9 +34,10 @@ public class Engine {
     private int playerId;
     private CameraSystem cameraSystem;
     private InputSystem inputSystem;
-    private LightSystem lightSystem;
+    private PointLightSystem lightSystem;
     private RenderSystem renderSystem;
     private RotationSystem rotationSystem;
+    private ShadowSystem shadowSystem;
     private TransformSystem transformSystem;
 
     private int fps;
@@ -84,27 +86,28 @@ public class Engine {
             .returnId();
 
         sceneBuilder.newEntity() // light
-            .add(new LightCmp(0.0f, 0.0f, 1.0f, 3.0f))
+            .add(new PointLightCmp(0.0f, 0.0f, 1.0f, 3.0f))
             .add(new MaterialCmp(AssetManager.get("wood", Material.class)))
             .add(new MeshCmp(MeshBuilder.cube()))
             .add(new TransformCmp(10, 0, -10, 0, 0, 0, 1, 1, 1));
 
         sceneBuilder.newEntity() // floor
             .add(new MaterialCmp(AssetManager.get("wood", Material.class)))
-            .add(new MeshCmp(MeshBuilder.square()))
-            .add(new TransformCmp(0, -4, -10, 0, 0, 0, 100, 100, 100));
+            .add(new MeshCmp(MeshBuilder.vSquare()))
+            .add(new TransformCmp(0, -4, -10, 0, 0, 90, 100, 100, 100));
 
         sceneBuilder.newEntity()
             .add(new MaterialCmp(AssetManager.get("wood", Material.class)))
             .add(new MeshCmp(MeshBuilder.cube()))
             .add(new RotationCmp())
-            .add(new TransformCmp(0, 0, -10, 0, 45, 0, 1, 1, 1));
+            .add(new TransformCmp(0, 0, -10, 0, 0, 0, 1, 1, 1));
         
         cameraSystem = new CameraSystem();
         inputSystem = new InputSystem();
-        lightSystem = new LightSystem();
+        lightSystem = new PointLightSystem();
         renderSystem = new RenderSystem();
         rotationSystem = new RotationSystem();
+        shadowSystem = new ShadowSystem();
         transformSystem = new TransformSystem();
     }
 

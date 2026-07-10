@@ -7,7 +7,7 @@ import github.snomfish.graphics.Mesh;
 import github.snomfish.graphics.Shader;
 import github.snomfish.scene.Scene;
 import github.snomfish.scene.components.CameraCmp;
-import github.snomfish.scene.components.LightCmp;
+import github.snomfish.scene.components.PointLightCmp;
 import github.snomfish.scene.components.MaterialCmp;
 import github.snomfish.scene.components.MeshCmp;
 import github.snomfish.scene.components.PlayerCmp;
@@ -33,14 +33,14 @@ public class RenderSystem {
 
 
         List<Integer> lightIds = scene.getEntitiesWith(List.of(
-            LightCmp.class,
+            PointLightCmp.class,
             TransformCmp.class
         ));
         for (int i = 0; i < lightIds.size(); i ++) {
             int id = lightIds.get(i);
             String name = "lights[" + i + "].";
 
-            LightCmp l = scene.get(id, LightCmp.class);
+            PointLightCmp l = scene.get(id, PointLightCmp.class);
             TransformCmp t = scene.get(id, TransformCmp.class);
 
             shader.setUniform(name + "position", t.getPosition());

@@ -4,20 +4,20 @@ import org.joml.Vector3f;
 
 import github.snomfish.scene.Component;
 
-public class LightCmp implements Component {
+public class PointLightCmp implements Component {
     
 
     private Vector3f colour = new Vector3f();
     private Float intensity;
 
 
-    public LightCmp(
+    public PointLightCmp(
         float r, float g, float b, float i
     ) {
         this.colour.set(r, g, b);
         this.intensity = i;
     }
-    public LightCmp() {
+    public PointLightCmp() {
         this(0.5f, 0.5f, 1.0f, 1.0f);
     }
 

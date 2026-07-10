@@ -1,16 +1,16 @@
 package github.snomfish.scene.system;
 
 import github.snomfish.scene.Scene;
-import github.snomfish.scene.components.LightCmp;
+import github.snomfish.scene.components.PointLightCmp;
 
-public class LightSystem {
+public class PointLightSystem {
     
 
     public void update(Scene scene, float deltaTime) {
 
-        for (Integer id : scene.getEntitiesWith(LightCmp.class)) {
+        for (Integer id : scene.getEntitiesWith(PointLightCmp.class)) {
 
-            LightCmp l = scene.get(id, LightCmp.class);
+            PointLightCmp l = scene.get(id, PointLightCmp.class);
 
             if (l == null) continue;
 

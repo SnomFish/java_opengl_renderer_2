@@ -5,12 +5,29 @@ import github.snomfish.graphics.Mesh;
 public class MeshBuilder {
     
 
-    public static final Mesh square() {
+    public static final Mesh hSquare() {
         float[] vertices = {
             0.5f,   0.0f,   0.5f,       0,1,0,          1,1,
             -0.5f,  0.0f,   0.5f,       0,1,0,          0,1,
             -0.5f,  0.0f,   -0.5f,      0,1,0,          0,0,
             0.5f,   0.0f,   -0.5f,      0,1,0,          1,0
+        };
+        int[] indices = {
+            0, 1, 2,
+            1, 2, 3,
+            2, 3, 0,
+            3, 0, 1
+        };
+        return new Mesh(vertices, indices);
+    }
+
+
+    public static final Mesh vSquare() {
+        float[] vertices = {
+            0.0f, 0.5f, 0.5f,       1,0,0,          1,1,
+            0.0f, -0.5f, 0.5f,      1,0,0,          0,1,
+            0.0f, -0.5f, -0.5f,     1,0,0,          0,0,
+            0.0f, 0.5f, -0.5f,      1,0,0,          1,0
         };
         int[] indices = {
             0, 1, 2,
