@@ -36,7 +36,7 @@ public class Scene {
     }
 
 
-    public Integer newEntity() { // eventuall remove enetity and just have a number
+    public Integer newEntity() {
         Integer id = nextId++;
         entities.add(id);
         return id;

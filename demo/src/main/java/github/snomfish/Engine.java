@@ -7,6 +7,7 @@ import github.snomfish.graphics.Renderer;
 import github.snomfish.graphics.Shader;
 import github.snomfish.input.Input;
 import github.snomfish.scene.Scene;
+import github.snomfish.scene.SceneBuilder;
 import github.snomfish.scene.components.CameraCmp;
 import github.snomfish.scene.components.LightCmp;
 import github.snomfish.scene.components.MaterialCmp;
@@ -75,21 +76,23 @@ public class Engine {
         );
 
         scene = new Scene();
+        SceneBuilder sceneBuilder = new SceneBuilder(scene);
 
-        playerId = scene.newEntity();
-        scene.add(playerId, new CameraCmp());
-        scene.add(playerId, new PlayerCmp());
-        scene.add(playerId, new TransformCmp(0, 0, 0, 0, 0, 0, 1, 1, 1));
+        playerId = sceneBuilder.newEntity()
+            .add(new CameraCmp())
+            .add(new PlayerCmp())
+            .add(new TransformCmp(0, 0, 0, 0, 0, 0, 1, 1, 1))
+            .returnId();
 
-        lightId = scene.newEntity();
-        scene.add(lightId, new LightCmp(0.0f, 0.0f, 1.0f, 4.0f));
-        scene.add(lightId, new TransformCmp(0, 3, 0, 0, 0, 0, 1, 1, 1));
+        lightId = sceneBuilder.newEntity()
+            .add(new LightCmp(0.0f, 0.0f, 1.0f, 4.0f))
+            .add(new TransformCmp(0, 3, 0, 0, 0, 0, 1, 1, 1))
+            .returnId();
 
-        Integer meshId = scene.newEntity();
-        Mesh mesh = MeshBuilder.cube();
-        scene.add(meshId, new MaterialCmp(AssetManager.get("wood", Material.class)));
-        scene.add(meshId, new MeshCmp(mesh));
-        scene.add(meshId, new TransformCmp(0, 0, -5, 0, 45, 0, 1, 1, 1));
+        sceneBuilder.newEntity()
+            .add(new MaterialCmp(AssetManager.get("wood", Material.class)))
+            .add(new MeshCmp(MeshBuilder.cube()))
+            .add(new TransformCmp(0, 0, -5, 0, 45, 0, 1, 1, 1));
         
         cameraSystem = new CameraSystem();
         inputSystem = new InputSystem();
