@@ -82,7 +82,7 @@ public class Scene {
     }
 
 
-    private Set<Integer> getEntitiesWith(Set<Integer> candidates, List<Class<? extends Component>> clazzes) {
+    private List<Integer> getEntitiesWith(List<Integer> candidates, List<Class<? extends Component>> clazzes) {
         if (clazzes.isEmpty()) {
             return candidates;
         }
@@ -96,13 +96,13 @@ public class Scene {
 
         return getEntitiesWith(candidates, clazzes.subList(1, clazzes.size()));
     }
-    public Set<Integer> getEntitiesWith(List<Class<? extends Component>> clazzes) {
+    public List<Integer> getEntitiesWith(List<Class<? extends Component>> clazzes) {
         if (clazzes.isEmpty()) {
-            return Collections.emptySet();
+            return new ArrayList<>();
         }
 
         // optimisation: sort the list in ascending size order to quickly cut down on candidates
-        Set<Integer> candidates = new HashSet<>(components.get(clazzes.get(0)).keySet());
+        List<Integer> candidates = new ArrayList<>(components.get(clazzes.get(0)).keySet());
 
         return getEntitiesWith(candidates, clazzes.subList(1, clazzes.size())); 
     }
