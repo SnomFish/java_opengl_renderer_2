@@ -2,6 +2,7 @@ package github.snomfish.graphics;
 
 import java.nio.FloatBuffer;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.joml.Matrix4f;
@@ -13,6 +14,8 @@ import org.lwjgl.system.MemoryStack;
 import github.snomfish.FileManager;
 
 public class Shader {
+
+    private static final int MAX_LIGHTS = 16;
     
     private static final String FOLDER_PATH = "shaders/";
 
@@ -37,20 +40,17 @@ public class Shader {
         createUniform("projection");
         createUniform("viewPosition");
 
-        createUniform("lights[0].position");
-        createUniform("lights[0].colour");
-        createUniform("lights[0].intensity");
-        createUniform("lights[1].position");
-        createUniform("lights[1].colour");
-        createUniform("lights[1].intensity");
-        createUniform("lights[2].position");
-        createUniform("lights[2].colour");
-        createUniform("lights[2].intensity");
-        createUniform("lightCount");
+        createUniform("lights", MAX_LIGHTS, List.of(
+            "position", 
+            "colour", 
+            "intensity"
+        ));
 
-        createUniform("materialDiffuse");
-        createUniform("materialSpecular");
-        createUniform("materialShininess");
+        createUniform("material", List.of(
+            "diffuse", 
+            "specular", 
+            "shininess"
+        ));
     }
 
 
@@ -143,6 +143,18 @@ public class Shader {
         }
 
         uniforms.put(name, location);
+    }
+    public void createUniform(String name, List<String> attributes) {
+        for (String attribute : attributes) {
+            createUniform(name + "." + attribute);
+        }
+    }
+    public void createUniform(String name, int arrayMax, List<String> attributes) {
+        for (int i = 0; i < arrayMax; i ++) {
+            for (String attribute : attributes) {
+                createUniform(name + "[" + i + "]." + attribute);
+            }
+        }
     }
 
 

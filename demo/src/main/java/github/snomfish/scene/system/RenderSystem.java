@@ -32,20 +32,21 @@ public class RenderSystem {
         shader.setUniform("viewPosition", ct.getPosition());
 
 
-        int lightI = 0;
-        for (Integer id : scene.getEntitiesWith(List.of(
+        List<Integer> lightIds = scene.getEntitiesWith(List.of(
             LightCmp.class,
             TransformCmp.class
-        ))) {
+        ));
+        for (int i = 0; i < lightIds.size(); i ++) {
+            int id = lightIds.get(i);
+            String name = "lights[" + i + "].";
+
             LightCmp l = scene.get(id, LightCmp.class);
             TransformCmp t = scene.get(id, TransformCmp.class);
-            shader.setLightUniform(lightI++, 
-                t.getPosition(), 
-                l.getColour(), 
-                l.getIntensity()
-            );
+
+            shader.setUniform(name + "position", t.getPosition());
+            shader.setUniform(name + "colour", l.getColour());
+            shader.setUniform(name + "intensity", l.getIntensity());
         }
-        shader.setUniform("lightCount", lightI);
 
 
         for (Integer id : scene.getEntitiesWith(List.of(
@@ -59,9 +60,9 @@ public class RenderSystem {
             TransformCmp t = scene.get(id, TransformCmp.class);
 
             shader.setUniform("model", t.getModelMatrix());
-            shader.setUniform("materialDiffuse", material.getDiffuse());
-            shader.setUniform("materialSpecular", material.getSpecular());
-            shader.setUniform("materialShininess", material.getShininess());
+            shader.setUniform("material.diffuse", material.getDiffuse());
+            shader.setUniform("material.specular", material.getSpecular());
+            shader.setUniform("material.shininess", material.getShininess());
             mesh.render();
         }
 

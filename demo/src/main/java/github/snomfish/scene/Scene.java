@@ -1,9 +1,7 @@
 package github.snomfish.scene;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,6 +11,7 @@ import github.snomfish.scene.components.LightCmp;
 import github.snomfish.scene.components.MaterialCmp;
 import github.snomfish.scene.components.MeshCmp;
 import github.snomfish.scene.components.PlayerCmp;
+import github.snomfish.scene.components.RotationCmp;
 import github.snomfish.scene.components.TransformCmp;
 
 public class Scene {
@@ -32,6 +31,7 @@ public class Scene {
         newComponent(MaterialCmp.class);
         newComponent(MeshCmp.class);
         newComponent(PlayerCmp.class);
+        newComponent(RotationCmp.class);
         newComponent(TransformCmp.class);
     }
 
@@ -73,6 +73,8 @@ public class Scene {
         components.get(clazz).remove(id);
     }
 
+
+    
 
     public <T extends Component> Set<Integer> getEntitiesWith(Class<T> clazz) {
         if (!components.containsKey(clazz)) {

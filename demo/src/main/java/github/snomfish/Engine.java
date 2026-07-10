@@ -2,7 +2,6 @@ package github.snomfish;
 
 import github.snomfish.graphics.AssetManager;
 import github.snomfish.graphics.Material;
-import github.snomfish.graphics.Mesh;
 import github.snomfish.graphics.Renderer;
 import github.snomfish.graphics.Shader;
 import github.snomfish.input.Input;
@@ -13,6 +12,7 @@ import github.snomfish.scene.components.LightCmp;
 import github.snomfish.scene.components.MaterialCmp;
 import github.snomfish.scene.components.MeshCmp;
 import github.snomfish.scene.components.PlayerCmp;
+import github.snomfish.scene.components.RotationCmp;
 import github.snomfish.scene.components.TransformCmp;
 import github.snomfish.scene.system.CameraSystem;
 import github.snomfish.scene.system.InputSystem;
@@ -83,22 +83,22 @@ public class Engine {
             .add(new TransformCmp(0, 0, 0, 0, 0, 0, 1, 1, 1))
             .returnId();
 
-        sceneBuilder.newEntity()
-            .add(new LightCmp(0.0f, 0.0f, 1.0f, 2.0f))
-            .add(new TransformCmp(0, 3, 0, 0, 0, 0, 1, 1, 1));
+        sceneBuilder.newEntity() // light
+            .add(new LightCmp(0.0f, 0.0f, 1.0f, 3.0f))
+            .add(new MaterialCmp(AssetManager.get("wood", Material.class)))
+            .add(new MeshCmp(MeshBuilder.cube()))
+            .add(new TransformCmp(10, 0, -10, 0, 0, 0, 1, 1, 1));
 
-        sceneBuilder.newEntity()
-            .add(new LightCmp(1.0f, 0.0f, 0.0f, 2.0f))
-            .add(new TransformCmp(10, 3, -10, 0, 0, 0, 1, 1, 1));
-        
-        sceneBuilder.newEntity()
-            .add(new LightCmp(0.0f, 1.0f, 0.0f, 2.0f))
-            .add(new TransformCmp(-10, 3, -10, 0, 0, 0, 1, 1, 1));
+        sceneBuilder.newEntity() // floor
+            .add(new MaterialCmp(AssetManager.get("wood", Material.class)))
+            .add(new MeshCmp(MeshBuilder.square()))
+            .add(new TransformCmp(0, -4, -10, 0, 0, 0, 100, 100, 100));
 
         sceneBuilder.newEntity()
             .add(new MaterialCmp(AssetManager.get("wood", Material.class)))
             .add(new MeshCmp(MeshBuilder.cube()))
-            .add(new TransformCmp(0, 0, -5, 0, 45, 0, 1, 1, 1));
+            .add(new RotationCmp())
+            .add(new TransformCmp(0, 0, -10, 0, 45, 0, 1, 1, 1));
         
         cameraSystem = new CameraSystem();
         inputSystem = new InputSystem();
