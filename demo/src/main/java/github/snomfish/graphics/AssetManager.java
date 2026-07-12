@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import github.snomfish.FileManager;
+import github.snomfish.graphics.assets.Material;
 
 public class AssetManager {
     

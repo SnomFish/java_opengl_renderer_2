@@ -1,4 +1,4 @@
-package github.snomfish.graphics;
+package github.snomfish.graphics.shader;
 
 import java.nio.FloatBuffer;
 import java.util.HashMap;
@@ -14,9 +14,8 @@ import org.lwjgl.system.MemoryStack;
 import github.snomfish.FileManager;
 
 public class Shader {
-
-    private static final int MAX_LIGHTS = 16;
     
+
     private static final String FOLDER_PATH = "shaders/";
 
     private final Map<String, Integer> uniforms;
@@ -34,23 +33,6 @@ public class Shader {
         loadVertexShader(vertexPath);
         loadFragmentShader(fragmentPath);
         linkProgram();
-
-        createUniform("model");
-        createUniform("view");
-        createUniform("projection");
-        createUniform("viewPosition");
-
-        createUniform("lights", MAX_LIGHTS, List.of(
-            "position", 
-            "colour", 
-            "intensity"
-        ));
-
-        createUniform("material", List.of(
-            "diffuse", 
-            "specular", 
-            "shininess"
-        ));
     }
 
 
@@ -144,6 +126,11 @@ public class Shader {
 
         uniforms.put(name, location);
     }
+    public void createUniform(String name, int arrayMax) {
+        for (int i = 0; i < arrayMax; i ++) {
+            createUniform(name + "[" + i + "]");
+        }
+    }
     public void createUniform(String name, List<String> attributes) {
         for (String attribute : attributes) {
             createUniform(name + "." + attribute);
@@ -187,11 +174,6 @@ public class Shader {
 
             GL20.glUniformMatrix4fv(location, false, buffer);
         }
-    }
-    public void setLightUniform(int i, Vector3f position, Vector3f colour, float intensity) {
-        setUniform("lights[" + i + "].position", position);
-        setUniform("lights[" + i + "].colour", colour);
-        setUniform("lights[" + i + "].intensity", intensity);
     }
 
 

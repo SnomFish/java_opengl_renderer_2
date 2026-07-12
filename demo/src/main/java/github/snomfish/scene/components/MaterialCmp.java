@@ -1,9 +1,9 @@
 package github.snomfish.scene.components;
 
-import github.snomfish.graphics.Material;
+import github.snomfish.graphics.assets.Material;
 import github.snomfish.scene.Component;
 
-public class MaterialCmp implements Component {
+public class MaterialCmp extends Component {
     
 
     private Material material;

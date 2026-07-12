@@ -7,6 +7,7 @@ struct Light {
     vec3 position;
     vec3 colour;
     float intensity;
+    float farPlane;
 };
 
 struct Material {
@@ -17,6 +18,7 @@ struct Material {
 
 
 uniform Light lights[MAX_LIGHTS];
+uniform samplerCube shadowMaps[MAX_LIGHTS];
 uniform Material material;
 
 uniform vec3 viewPosition;

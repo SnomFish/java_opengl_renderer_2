@@ -5,15 +5,13 @@ import org.joml.Vector3f;
 
 import github.snomfish.scene.Component;
 
-public class TransformCmp implements Component {
+public class TransformCmp extends Component {
     
     
     private final Matrix4f modelMatrix = new Matrix4f(); 
     private Vector3f position = new Vector3f();
     private Vector3f rotation = new Vector3f();
     private Vector3f scale = new Vector3f();
-
-    private boolean updateFlag;
 
 
     public TransformCmp(
@@ -22,7 +20,6 @@ public class TransformCmp implements Component {
         position.set(px, py, pz);
         rotation.set(rx, ry, rz);
         scale.set(sx, sy, sz);
-        updateFlag = true;
     }
     public TransformCmp() {
         this(0, 0, 0, 0, 0, 0, 1, 1, 1);
@@ -42,32 +39,26 @@ public class TransformCmp implements Component {
     public Vector3f getScale() {
         return scale;
     }
-    public boolean getUpdateFlag() {
-        return updateFlag;
-    }
 
 
     // setter
     public void setPosition(float x, float y, float z) {
         this.position.set(x, y, z);
-        updateFlag = true;
+        setAllDirty();
     }
     public void setRotation(float x, float y, float z) {
         this.rotation.set(x, y, z);
-        updateFlag = true;
+        setAllDirty();
     }
     public void setScale(float x, float y, float z) {
         this.scale.set(x, y, z);
-        updateFlag = true;
-    }
-    public void setUpdateFlag(boolean updateFlag) {
-        this.updateFlag = updateFlag;
+        setAllDirty();
     }
 
 
     public void translate(float dx, float dy, float dz) {
         this.position.add(dx, dy, dz);
-        updateFlag = true;
+        setAllDirty();
     }
     public void translateX(float delta) {translate(delta, 0, 0);}
     public void translateY(float delta) {translate(0, delta, 0);}
@@ -75,7 +66,7 @@ public class TransformCmp implements Component {
 
     public void rotate(float dx, float dy, float dz) {
         this.rotation.add(dx, dy, dz);
-        updateFlag = true;
+        setAllDirty();
     }
     public void rotateX(float delta) {rotate(delta, 0, 0);}
     public void rotateY(float delta) {rotate(0, delta, 0);}
@@ -83,7 +74,7 @@ public class TransformCmp implements Component {
 
     public void scale(float dx, float dy, float dz) {
         this.scale.add(dx, dy, dz);
-        updateFlag = true;
+        setAllDirty();
     }
 
 
@@ -95,7 +86,7 @@ public class TransformCmp implements Component {
             0,
             cos * -delta
         );
-        updateFlag = true;
+        setAllDirty();
     }
     public void strafeX(float delta) {
         float sin = (float) Math.sin(Math.toRadians(rotation.y));
@@ -105,6 +96,6 @@ public class TransformCmp implements Component {
             0,
             sin * delta
         );
-        updateFlag = true;
+        setAllDirty();
     }
 }

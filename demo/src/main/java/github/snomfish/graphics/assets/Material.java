@@ -1,6 +1,8 @@
-package github.snomfish.graphics;
+package github.snomfish.graphics.assets;
 
 import org.joml.Vector3f;
+
+import github.snomfish.graphics.Asset;
 
 public class Material implements Asset {
 

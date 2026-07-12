@@ -1,43 +1,30 @@
 package github.snomfish;
 
 import github.snomfish.graphics.AssetManager;
-import github.snomfish.graphics.Material;
-import github.snomfish.graphics.Renderer;
-import github.snomfish.graphics.Shader;
+import github.snomfish.graphics.assets.Material;
+import github.snomfish.graphics.shader.SceneShader;
+import github.snomfish.graphics.shader.ShadowShader;
 import github.snomfish.input.Input;
 import github.snomfish.scene.Scene;
 import github.snomfish.scene.SceneBuilder;
-import github.snomfish.scene.components.CameraCmp;
-import github.snomfish.scene.components.PointLightCmp;
-import github.snomfish.scene.components.MaterialCmp;
-import github.snomfish.scene.components.MeshCmp;
-import github.snomfish.scene.components.PlayerCmp;
-import github.snomfish.scene.components.RotationCmp;
-import github.snomfish.scene.components.TransformCmp;
-import github.snomfish.scene.system.CameraSystem;
-import github.snomfish.scene.system.InputSystem;
-import github.snomfish.scene.system.PointLightSystem;
-import github.snomfish.scene.system.RenderSystem;
-import github.snomfish.scene.system.RotationSystem;
-import github.snomfish.scene.system.ShadowSystem;
-import github.snomfish.scene.system.TransformSystem;
+import github.snomfish.scene.components.*;
+import github.snomfish.scene.system.*;
 import github.snomfish.window.Window;
 
 public class Engine {
 
 
     private Window window;
-    private Shader shader;
-    private Renderer renderer;
+    private SceneShader sceneShader;
+    private ShadowShader shadowShader;
     private Scene scene;
 
     private int playerId;
     private CameraSystem cameraSystem;
     private InputSystem inputSystem;
-    private PointLightSystem lightSystem;
     private RenderSystem renderSystem;
     private RotationSystem rotationSystem;
-    private ShadowSystem shadowSystem;
+    private PointShadowSystem pointShadowSystem;
     private TransformSystem transformSystem;
 
     private int fps;
@@ -68,13 +55,8 @@ public class Engine {
         window = new Window(1280, 720, "Renderer");
         window.init();
 
-        renderer = new Renderer();
-        renderer.init();
-
-        shader = new Shader(
-            "Vertex.glsl", 
-            "Fragment.glsl"
-        );
+        sceneShader = new SceneShader();
+        shadowShader = new ShadowShader();
 
         scene = new Scene();
         SceneBuilder sceneBuilder = new SceneBuilder(scene);
@@ -86,29 +68,31 @@ public class Engine {
             .returnId();
 
         sceneBuilder.newEntity() // light
-            .add(new PointLightCmp(0.0f, 0.0f, 1.0f, 3.0f))
-            .add(new MaterialCmp(AssetManager.get("wood", Material.class)))
-            .add(new MeshCmp(MeshBuilder.cube()))
-            .add(new TransformCmp(10, 0, -10, 0, 0, 0, 1, 1, 1));
+            .add(new PointLightCmp(0.0f, 0.0f, 1.0f, 1.0f))
+            .add(new PointShadowCmp())
+            .add(new TransformCmp(0, 10, -10, 0, 0, 0, 1, 1, 1));
 
-        sceneBuilder.newEntity() // floor
+        sceneBuilder.newEntity() // room
             .add(new MaterialCmp(AssetManager.get("wood", Material.class)))
-            .add(new MeshCmp(MeshBuilder.vSquare()))
-            .add(new TransformCmp(0, -4, -10, 0, 0, 90, 100, 100, 100));
+            .add(new MeshCmp(MeshBuilder.hSquare()))
+            .add(new ShadowCasterCmp())
+            .add(new TransformCmp(0, -3, -10, 0, 0, 0, 30, 30, 30));
 
         sceneBuilder.newEntity()
             .add(new MaterialCmp(AssetManager.get("wood", Material.class)))
             .add(new MeshCmp(MeshBuilder.cube()))
             .add(new RotationCmp())
+            .add(new ShadowCasterCmp())
             .add(new TransformCmp(0, 0, -10, 0, 0, 0, 1, 1, 1));
         
         cameraSystem = new CameraSystem();
         inputSystem = new InputSystem();
-        lightSystem = new PointLightSystem();
         renderSystem = new RenderSystem();
         rotationSystem = new RotationSystem();
-        shadowSystem = new ShadowSystem();
+        pointShadowSystem = new PointShadowSystem();
         transformSystem = new TransformSystem();
+
+        renderSystem.init();
     }
 
 
@@ -134,24 +118,27 @@ public class Engine {
     private void update(float deltaTime) {
         window.update();
         inputSystem.update(scene, deltaTime);
-        lightSystem.update(scene, deltaTime);
-        rotationSystem.update(scene, deltaTime);
+        pointShadowSystem.update(scene);
         transformSystem.update(scene);
         cameraSystem.update(scene, window.getAspect());
+
+        rotationSystem.update(scene, deltaTime);
 
         Input.endFrame();
     }
 
 
     private void render(float deltaTime) {
-        renderer.beginFrame();
-        renderSystem.render(scene, shader, window.getAspect(), playerId);
-        renderer.endFrame();
+        renderSystem.beginFrame();
+        pointShadowSystem.render(scene, shadowShader, window.getWidth(), window.getHeight());
+        renderSystem.render(scene, sceneShader, window.getAspect(), playerId);
+        renderSystem.endFrame();
     }
 
 
     private void cleanup() {
         window.cleanup();
-        shader.cleanup();
+        sceneShader.cleanup();
+        shadowShader.cleanup();
     }
 }

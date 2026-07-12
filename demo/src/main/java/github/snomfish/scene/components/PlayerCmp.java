@@ -2,7 +2,7 @@ package github.snomfish.scene.components;
 
 import github.snomfish.scene.Component;
 
-public class PlayerCmp implements Component {
+public class PlayerCmp extends Component {
     
 
     private float speed;

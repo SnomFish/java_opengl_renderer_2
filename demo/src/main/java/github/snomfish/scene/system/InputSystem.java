@@ -6,10 +6,11 @@ import org.lwjgl.glfw.GLFW;
 
 import github.snomfish.input.Input;
 import github.snomfish.scene.Scene;
+import github.snomfish.scene.System;
 import github.snomfish.scene.components.PlayerCmp;
 import github.snomfish.scene.components.TransformCmp;
 
-public class InputSystem {
+public class InputSystem extends System {
 
 
     public void update(Scene scene, float deltaTime) {

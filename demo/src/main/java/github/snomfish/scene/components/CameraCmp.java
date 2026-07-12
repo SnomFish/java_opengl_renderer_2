@@ -4,7 +4,7 @@ import org.joml.Matrix4f;
 
 import github.snomfish.scene.Component;
 
-public class CameraCmp implements Component {
+public class CameraCmp extends Component {
     
 
     private final Matrix4f view = new Matrix4f();

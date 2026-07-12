@@ -2,17 +2,10 @@ package github.snomfish.scene;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import github.snomfish.scene.components.CameraCmp;
-import github.snomfish.scene.components.PointLightCmp;
-import github.snomfish.scene.components.MaterialCmp;
-import github.snomfish.scene.components.MeshCmp;
-import github.snomfish.scene.components.PlayerCmp;
-import github.snomfish.scene.components.RotationCmp;
-import github.snomfish.scene.components.TransformCmp;
 
 public class Scene {
     
@@ -25,14 +18,6 @@ public class Scene {
     public Scene() {
         entities = new ArrayList<>();
         components = new HashMap<>();
-
-        newComponent(CameraCmp.class);
-        newComponent(PointLightCmp.class);
-        newComponent(MaterialCmp.class);
-        newComponent(MeshCmp.class);
-        newComponent(PlayerCmp.class);
-        newComponent(RotationCmp.class);
-        newComponent(TransformCmp.class);
     }
 
 
@@ -40,11 +25,6 @@ public class Scene {
         Integer id = nextId++;
         entities.add(id);
         return id;
-    }
-
-
-    public <T extends Component> void newComponent(Class<T> clazz) {
-        components.put(clazz, new HashMap<>());
     }
 
 
@@ -60,7 +40,7 @@ public class Scene {
     public <T extends Component> void add(Integer id, T component) {
         Class<? extends Component> clazz = component.getClass();
         if (!components.containsKey(clazz)) {
-            throw new RuntimeException("unable to add, class " + clazz.getSimpleName() + " not found in scene");
+            components.put(clazz, new HashMap<>());
         }
         components.get(clazz).put(id, component);
     }
@@ -78,7 +58,7 @@ public class Scene {
 
     public <T extends Component> Set<Integer> getEntitiesWith(Class<T> clazz) {
         if (!components.containsKey(clazz)) {
-            throw new RuntimeException("unable to getEntitiesWith, class " + clazz.getSimpleName() + " not found in scene");
+            return new HashSet<>();
         }
         return components.get(clazz).keySet(); 
     }
@@ -91,7 +71,7 @@ public class Scene {
 
         Class<? extends Component> clazz = clazzes.get(0);
         if (!components.containsKey(clazz)) {
-            throw new RuntimeException("unable to getEntitiesWith, class " + clazz.getSimpleName() + " not found in scene");
+            return new ArrayList<>();
         } 
 
         candidates.removeIf(id -> !components.get(clazz).containsKey(id));

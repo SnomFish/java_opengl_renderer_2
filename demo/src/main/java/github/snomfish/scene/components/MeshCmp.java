@@ -3,7 +3,7 @@ package github.snomfish.scene.components;
 import github.snomfish.graphics.Mesh;
 import github.snomfish.scene.Component;
 
-public class MeshCmp implements Component {
+public class MeshCmp extends Component {
     
 
     private Mesh mesh;
