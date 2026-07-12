@@ -22,6 +22,7 @@ public class Engine {
     private int playerId;
     private CameraSystem cameraSystem;
     private InputSystem inputSystem;
+    private RenderShadowsSystem renderShadowsSystem;
     private RenderSystem renderSystem;
     private RotationSystem rotationSystem;
     private PointShadowSystem pointShadowSystem;
@@ -68,9 +69,9 @@ public class Engine {
             .returnId();
 
         sceneBuilder.newEntity() // light
-            .add(new PointLightCmp(0.0f, 0.0f, 1.0f, 1.0f))
+            .add(new PointLightCmp(0.0f, 0.0f, 1.0f, 3.0f))
             .add(new PointShadowCmp())
-            .add(new TransformCmp(0, 10, -10, 0, 0, 0, 1, 1, 1));
+            .add(new TransformCmp(10, 5, -10, 0, 0, 0, 1, 1, 1));
 
         sceneBuilder.newEntity() // room
             .add(new MaterialCmp(AssetManager.get("wood", Material.class)))
@@ -88,6 +89,7 @@ public class Engine {
         cameraSystem = new CameraSystem();
         inputSystem = new InputSystem();
         renderSystem = new RenderSystem();
+        renderShadowsSystem = new RenderShadowsSystem();
         rotationSystem = new RotationSystem();
         pointShadowSystem = new PointShadowSystem();
         transformSystem = new TransformSystem();
@@ -130,8 +132,10 @@ public class Engine {
 
     private void render(float deltaTime) {
         renderSystem.beginFrame();
-        pointShadowSystem.render(scene, shadowShader, window.getWidth(), window.getHeight());
+
+        renderShadowsSystem.render(scene, shadowShader, window.getWidth(), window.getHeight());
         renderSystem.render(scene, sceneShader, window.getAspect(), playerId);
+
         renderSystem.endFrame();
     }
 
