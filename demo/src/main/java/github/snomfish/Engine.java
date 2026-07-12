@@ -67,7 +67,7 @@ public class Engine {
             .add(new PlayerCmp())
             .add(new TransformCmp(0, 0, 0, 0, 0, 0, 1, 1, 1))
             .returnId();
-
+        
         sceneBuilder.newEntity() // light
             .add(new PointLightCmp(0.0f, 0.0f, 1.0f, 3.0f))
             .add(new PointShadowCmp())
@@ -77,7 +77,7 @@ public class Engine {
             .add(new MaterialCmp(AssetManager.get("wood", Material.class)))
             .add(new MeshCmp(MeshBuilder.hSquare()))
             .add(new ShadowCasterCmp())
-            .add(new TransformCmp(0, -3, -10, 0, 0, 0, 30, 30, 30));
+            .add(new TransformCmp(0, -3, -10, 0, 0, 0, 100, 1, 100));
 
         sceneBuilder.newEntity()
             .add(new MaterialCmp(AssetManager.get("wood", Material.class)))

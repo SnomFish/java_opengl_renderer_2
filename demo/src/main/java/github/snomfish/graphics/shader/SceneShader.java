@@ -10,8 +10,8 @@ public class SceneShader extends Shader{
 
     public SceneShader() {
         super(
-            "Vertex.glsl",
-            "SceneFragment.glsl"
+            "scene/Vertex.glsl",
+            "scene/Fragment.glsl"
         );
 
         createUniform("model");

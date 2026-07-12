@@ -4,8 +4,8 @@ public class ShadowShader extends Shader {
 
     public ShadowShader() {
         super(
-            "PointShadowVertex.glsl",
-            "PointShadowFragment.glsl"
+            "pointShadow/Vertex.glsl",
+            "pointShadow/Fragment.glsl"
         );
 
         createUniform("model");
